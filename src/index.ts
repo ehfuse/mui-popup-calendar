@@ -20,7 +20,6 @@ export type {
     TimeSelectorProps,
     DatePickerProps,
     DateTimePickerProps,
-    CalendarLocale,
     CalendarTexts,
     LocaleKey,
     LocaleProp,

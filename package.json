@@ -1,6 +1,6 @@
 {
     "name": "@ehfuse/mui-datetime-picker",
-    "version": "1.0.3",
+    "version": "1.0.2",
     "description": "MUI based popup calendar and time picker components",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
@@ -35,10 +35,10 @@
         "url": "https://github.com/ehfuse/mui-datetime-picker.git"
     },
     "peerDependencies": {
-        "@mui/material": ">=5.0.0",
+        "@ehfuse/overlay-scrollbar": ">=1.0.0",
         "@emotion/react": ">=11.0.0",
         "@emotion/styled": ">=11.0.0",
-        "@ehfuse/overlay-scrollbar": ">=1.0.0",
+        "@mui/material": ">=5.0.0",
         "react": ">=17.0.0",
         "react-dom": ">=17.0.0"
     },
