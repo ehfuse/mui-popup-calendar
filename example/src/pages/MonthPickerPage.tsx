@@ -4,7 +4,6 @@ import {
     Typography,
     Paper,
     Button,
-    TextField,
     FormControlLabel,
     Switch,
     Divider,
@@ -31,15 +30,20 @@ export default function MonthPickerPage() {
     );
     const [yearAutoApply, setYearAutoApply] = useState(false);
 
-    const handleMonthSelect = (year: number, month: number) => {
+    const handleMonthChange = (year: number, month: number) => {
         setSelectedYear(year);
-        setSelectedMonth(month);
-        console.log("Month selected:", year, month + 1);
+        setSelectedMonth(month - 1); // month는 1-indexed
+        console.log("Month changed:", year, month);
     };
 
-    const handleYearSelect = (year: number) => {
+    const handleMonthYearChange = (year: number) => {
+        setSelectedYear(year);
+        console.log("Month picker - Year changed:", year);
+    };
+
+    const handleYearChange = (year: number) => {
         setSelectedYearOnly(year);
-        console.log("Year selected:", year);
+        console.log("Year changed:", year);
     };
 
     const monthNames = [
@@ -89,7 +93,9 @@ export default function MonthPickerPage() {
                         anchorEl={monthAnchorRef}
                         mode="date"
                         monthOnly={true}
-                        onMonthSelect={handleMonthSelect}
+                        selectedDate={new Date(selectedYear, selectedMonth, 1)}
+                        onMonthChange={handleMonthChange}
+                        onYearChange={handleMonthYearChange}
                         autoApply={monthAutoApply}
                     />
 
@@ -125,14 +131,21 @@ export default function MonthPickerPage() {
                             onSelect={() => {}}
                             onClose={() => {}}
                             monthOnly={true}
-                            onMonthSelect={(year, month) => {
+                            onMonthChange={(year, month) => {
                                 console.log(
-                                    "Inline month selected:",
+                                    "Inline month changed:",
                                     year,
-                                    monthNames[month]
+                                    monthNames[month - 1]
                                 );
                                 setSelectedYear(year);
-                                setSelectedMonth(month);
+                                setSelectedMonth(month - 1);
+                            }}
+                            onYearChange={(year) => {
+                                console.log(
+                                    "Inline month picker - Year changed:",
+                                    year
+                                );
+                                setSelectedYear(year);
                             }}
                             showFooter={false}
                             autoApply={true}
@@ -161,7 +174,8 @@ export default function MonthPickerPage() {
                         anchorEl={yearAnchorRef}
                         mode="date"
                         yearOnly={true}
-                        onYearSelect={handleYearSelect}
+                        selectedDate={new Date(selectedYearOnly, 0, 1)}
+                        onYearChange={handleYearChange}
                         autoApply={yearAutoApply}
                     />
 
@@ -193,12 +207,12 @@ export default function MonthPickerPage() {
                         }}
                     >
                         <SimpleCalendar
-                            selectedDate={null}
+                            selectedDate={new Date(selectedYearOnly, 0, 1)}
                             onSelect={() => {}}
                             onClose={() => {}}
                             yearOnly={true}
-                            onYearSelect={(year) => {
-                                console.log("Inline year selected:", year);
+                            onYearChange={(year) => {
+                                console.log("Inline year changed:", year);
                                 setSelectedYearOnly(year);
                             }}
                             showFooter={false}
@@ -230,9 +244,9 @@ export default function MonthPickerPage() {
   anchorEl={anchorRef}
   mode="date"
   monthOnly={true}
-  onMonthSelect={(year, month) => {
+  onMonthChange={(year, month) => {
     setSelectedYear(year);
-    setSelectedMonth(month);
+    setSelectedMonth(month - 1); // month는 1-indexed
   }}
 />
 
@@ -243,7 +257,7 @@ export default function MonthPickerPage() {
   anchorEl={anchorRef}
   mode="date"
   yearOnly={true}
-  onYearSelect={(year) => {
+  onYearChange={(year) => {
     setSelectedYear(year);
   }}
 />`}

@@ -51,6 +51,28 @@ export default function PopupCalendarPage() {
         console.log("Time changed:", hour, minute, second);
     };
 
+    const handleMonthChange = (year: number, month: number) => {
+        console.log("Month changed (navigation):", year, "년", month, "월");
+    };
+
+    const handleYearChange = (year: number) => {
+        console.log("Year changed (navigation):", year, "년");
+    };
+
+    const handleWeekChange = (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => {
+        console.log(
+            "Week changed:",
+            weekOfMonth + "주차",
+            startDate.toLocaleDateString("ko-KR"),
+            "~",
+            endDate.toLocaleDateString("ko-KR")
+        );
+    };
+
     const getDisplayText = () => {
         const datePart = selectedDate
             ? selectedDate.toLocaleDateString("ko-KR")
@@ -104,8 +126,11 @@ export default function PopupCalendarPage() {
                         mode={mode}
                         selectedDate={selectedDate}
                         onDateChange={handleDateChange}
-                        timeValue={timeValue}
+                        onYearChange={handleYearChange}
+                        onMonthChange={handleMonthChange}
+                        onWeekChange={handleWeekChange}
                         onTimeChange={handleTimeChange}
+                        timeValue={timeValue}
                         timeFormat={timeFormat}
                         showToday={showToday}
                         showFooter={showFooter}

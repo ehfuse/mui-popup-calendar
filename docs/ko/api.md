@@ -11,6 +11,8 @@
     -   [PopupCalendarMode](#popupcalendarmode)
     -   [TimeFormat](#timeformat)
     -   [TimeValue](#timevalue)
+    -   [WeekInfo](#weekinfo)
+    -   [CalendarStyles](#calendarstyles)
     -   [LocaleProp](#localeprop)
     -   [CalendarLocale](#calendarlocale)
     -   [CalendarTexts](#calendartexts)
@@ -30,35 +32,36 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 
 #### Props
 
-| Prop               | 타입                                                      | 기본값           | 필수 | 설명                                    |
-| ------------------ | --------------------------------------------------------- | ---------------- | ---- | --------------------------------------- |
-| `open`             | `boolean`                                                 | -                | ✓    | 팝업 열림 상태                          |
-| `onClose`          | `() => void`                                              | -                | ✓    | 닫기 콜백                               |
-| `anchorEl`         | `AnchorElType`                                            | -                | -    | Popover 앵커 엘리먼트 (ref 객체도 가능) |
-| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                 | `"date"`         | -    | 모드 (date, time, datetime)             |
-| `selectedDate`     | `Date \| null`                                            | -                | -    | 선택된 날짜                             |
-| `onDateChange`     | `(date: Date) => void`                                    | -                | -    | 날짜 변경 콜백                          |
-| `timeValue`        | [`TimeValue`](#timevalue)                                 | -                | -    | 시간 값                                 |
-| `onTimeChange`     | `(hour: string, minute: string, second?: string) => void` | -                | -    | 시간 변경 콜백                          |
-| `minDate`          | `Date`                                                    | -                | -    | 선택 가능한 최소 날짜                   |
-| `maxDate`          | `Date`                                                    | -                | -    | 선택 가능한 최대 날짜                   |
-| `holidays`         | `Date[]`                                                  | `[]`             | -    | 공휴일 배열                             |
-| `selectedColor`    | `string`                                                  | `"primary.main"` | -    | 선택된 날짜 색상                        |
-| `showToday`        | `boolean`                                                 | `true`           | -    | 오늘 버튼 표시 여부                     |
-| `showFooter`       | `boolean`                                                 | `true`           | -    | 푸터 표시 여부                          |
-| `autoApply`        | `boolean`                                                 | `false`          | -    | 선택 즉시 적용 여부                     |
-| `timeFormat`       | [`TimeFormat`](#timeformat)                               | `"HH:mm"`        | -    | 시간 포맷                               |
-| `minTime`          | `string`                                                  | -                | -    | 선택 가능한 최소 시간                   |
-| `maxTime`          | `string`                                                  | -                | -    | 선택 가능한 최대 시간                   |
-| `minuteStep`       | `number`                                                  | `1`              | -    | 분 단위 간격                            |
-| `secondStep`       | `number`                                                  | `1`              | -    | 초 단위 간격                            |
-| `hideDisabledTime` | `boolean`                                                 | `false`          | -    | 선택 불가 시간 숨김 여부                |
-| `locale`           | [`LocaleProp`](#localeprop)                               | `"ko"`           | -    | 로케일 (문자열 또는 객체)               |
-| `texts`            | [`CalendarTexts`](#calendartexts)                         | -                | -    | 텍스트 부분 커스터마이징                |
-| `monthOnly`        | `boolean`                                                 | `false`          | -    | 년월만 선택 모드                        |
-| `onMonthSelect`    | `(year: number, month: number) => void`                   | -                | -    | 년월 선택 콜백                          |
-| `yearOnly`         | `boolean`                                                 | `false`          | -    | 년도만 선택 모드                        |
-| `onYearSelect`     | `(year: number) => void`                                  | -                | -    | 년도 선택 콜백                          |
+| Prop               | 타입                                                            | 기본값    | 필수 | 설명                                    |
+| ------------------ | --------------------------------------------------------------- | --------- | ---- | --------------------------------------- |
+| `open`             | `boolean`                                                       | -         | ✓    | 팝업 열림 상태                          |
+| `onClose`          | `() => void`                                                    | -         | ✓    | 닫기 콜백                               |
+| `anchorEl`         | `AnchorElType`                                                  | -         | -    | Popover 앵커 엘리먼트 (ref 객체도 가능) |
+| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                       | `"date"`  | -    | 모드 (date, time, datetime)             |
+| `selectedDate`     | `Date \| null`                                                  | -         | -    | 선택된 날짜                             |
+| `onDateChange`     | `(date: Date) => void`                                          | -         | -    | 날짜 변경 콜백                          |
+| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -    | 시간 값                                 |
+| `onTimeChange`     | `(hour: string, minute: string, second?: string) => void`       | -         | -    | 시간 변경 콜백                          |
+| `minDate`          | `Date`                                                          | -         | -    | 선택 가능한 최소 날짜                   |
+| `maxDate`          | `Date`                                                          | -         | -    | 선택 가능한 최대 날짜                   |
+| `holidays`         | `Date[]`                                                        | `[]`      | -    | 공휴일 배열                             |
+| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -    | 스타일 옵션                             |
+| `showToday`        | `boolean`                                                       | `true`    | -    | 오늘 버튼 표시 여부                     |
+| `showFooter`       | `boolean`                                                       | `true`    | -    | 푸터 표시 여부                          |
+| `autoApply`        | `boolean`                                                       | `false`   | -    | 선택 즉시 적용 여부                     |
+| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -    | 시간 포맷                               |
+| `minTime`          | `string`                                                        | -         | -    | 선택 가능한 최소 시간                   |
+| `maxTime`          | `string`                                                        | -         | -    | 선택 가능한 최대 시간                   |
+| `minuteStep`       | `number`                                                        | `1`       | -    | 분 단위 간격                            |
+| `secondStep`       | `number`                                                        | `1`       | -    | 초 단위 간격                            |
+| `hideDisabledTime` | `boolean`                                                       | `false`   | -    | 선택 불가 시간 숨김 여부                |
+| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -    | 로케일 (문자열 또는 객체)               |
+| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -    | 텍스트 부분 커스터마이징                |
+| `monthOnly`        | `boolean`                                                       | `false`   | -    | 년월만 선택 모드                        |
+| `yearOnly`         | `boolean`                                                       | `false`   | -    | 년도만 선택 모드                        |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -    | 월 변경 콜백 (확정 시)                  |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -    | 년도 변경 콜백 (확정 시)                |
+| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -    | 주 변경 콜백 (확정 시)                  |
 
 > **참고**: PopupCalendar는 MUI `PopoverProps`를 확장합니다. `anchorOrigin`, `transformOrigin`, `slotProps` 등 Popover의 모든 Props를 사용할 수 있습니다.
 
@@ -74,32 +77,34 @@ import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
 
 #### Props
 
-| Prop               | 타입                                                      | 기본값           | 필수 | 설명                      |
-| ------------------ | --------------------------------------------------------- | ---------------- | ---- | ------------------------- | --- | ---------- | --------- | ------- | --- | ---------------- |
-| `selectedDate`     | `Date \| null`                                            | -                | ✓    | 선택된 날짜               |
-| `onSelect`         | `(date: Date) => void`                                    | -                | ✓    | 날짜 선택 콜백            |
-| `onClose`          | `() => void`                                              | -                | ✓    | 닫기 콜백                 |
-| `minDate`          | `Date`                                                    | -                | -    | 선택 가능한 최소 날짜     |
-| `maxDate`          | `Date`                                                    | -                | -    | 선택 가능한 최대 날짜     |
-| `holidays`         | `Date[]`                                                  | `[]`             | -    | 공휴일 배열               |
-| `selectedColor`    | `string`                                                  | `"primary.main"` | -    | 선택된 날짜 색상          |
-| `showToday`        | `boolean`                                                 | `true`           | -    | 오늘 버튼 표시 여부       |
-| `showFooter`       | `boolean`                                                 | `true`           | -    | 푸터 표시 여부            |
-| `autoApply`        | `boolean`                                                 | `false`          | -    | 선택 즉시 적용 여부       |
-| `showTimePicker`   | `boolean`                                                 | `false`          | -    | 시간 선택 표시 여부       |
-| `timeValue`        | [`TimeValue`](#timevalue)                                 | -                | -    | 시간 값                   |
-| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void` | -                | -    | 시간 변경 콜백            |
-| `timeFormat`       | [`TimeFormat`](#timeformat)                               | `"HH:mm"`        | -    | 시간 포맷                 |
-| `minTime`          | `string`                                                  | -                | -    | 선택 가능한 최소 시간     |
-| `maxTime`          | `string`                                                  | -                | -    | 선택 가능한 최대 시간     |
-| `minuteStep`       | `number`                                                  | `1`              | -    | 분 단위 간격              |
-| `secondStep`       | `number`                                                  | `1`              | -    | 초 단위 간격              |
-| `hideDisabledTime` | `boolean`                                                 | `false`          | -    | 선택 불가 시간 숨김 여부  |
-| `locale`           | [`LocaleProp`](#localeprop)                               | `"ko"`           | -    | 로케일 (문자열 또는 객체) |
-| `texts`            | [`CalendarTexts`](#calendartexts)                         | -                | -    | 텍스트 부분 커스터마이징  |
-| `monthOnly`        | `boolean`                                                 | `false`          | -    | 년월만 선택 모드          |
-| `onMonthSelect`    | `(year: number, month: number) => void`                   | -                | -    | 년월 선택 콜백            |     | `yearOnly` | `boolean` | `false` | -   | 년도만 선택 모드 |
-| `onYearSelect`     | `(year: number) => void`                                  | -                | -    | 년도 선택 콜백            |
+| Prop               | 타입                                                            | 기본값    | 필수 | 설명                      |
+| ------------------ | --------------------------------------------------------------- | --------- | ---- | ------------------------- |
+| `selectedDate`     | `Date \| null`                                                  | -         | ✓    | 선택된 날짜               |
+| `onSelect`         | `(date: Date) => void`                                          | -         | ✓    | 날짜 선택 콜백            |
+| `onClose`          | `() => void`                                                    | -         | ✓    | 닫기 콜백                 |
+| `minDate`          | `Date`                                                          | -         | -    | 선택 가능한 최소 날짜     |
+| `maxDate`          | `Date`                                                          | -         | -    | 선택 가능한 최대 날짜     |
+| `holidays`         | `Date[]`                                                        | `[]`      | -    | 공휴일 배열               |
+| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -    | 스타일 옵션               |
+| `showToday`        | `boolean`                                                       | `true`    | -    | 오늘 버튼 표시 여부       |
+| `showFooter`       | `boolean`                                                       | `true`    | -    | 푸터 표시 여부            |
+| `autoApply`        | `boolean`                                                       | `false`   | -    | 선택 즉시 적용 여부       |
+| `showTimePicker`   | `boolean`                                                       | `false`   | -    | 시간 선택 표시 여부       |
+| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -    | 시간 값                   |
+| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void`       | -         | -    | 시간 변경 콜백            |
+| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -    | 시간 포맷                 |
+| `minTime`          | `string`                                                        | -         | -    | 선택 가능한 최소 시간     |
+| `maxTime`          | `string`                                                        | -         | -    | 선택 가능한 최대 시간     |
+| `minuteStep`       | `number`                                                        | `1`       | -    | 분 단위 간격              |
+| `secondStep`       | `number`                                                        | `1`       | -    | 초 단위 간격              |
+| `hideDisabledTime` | `boolean`                                                       | `false`   | -    | 선택 불가 시간 숨김 여부  |
+| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -    | 로케일 (문자열 또는 객체) |
+| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -    | 텍스트 부분 커스터마이징  |
+| `monthOnly`        | `boolean`                                                       | `false`   | -    | 년월만 선택 모드          |
+| `yearOnly`         | `boolean`                                                       | `false`   | -    | 년도만 선택 모드          |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -    | 월 변경 콜백 (확정 시)    |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -    | 년도 변경 콜백 (확정 시)  |
+| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -    | 주 변경 콜백 (확정 시)    |
 
 ---
 
@@ -201,6 +206,55 @@ interface TimeValue {
     minute: string; // 분 (00-59)
     second?: string; // 초 (00-59, 선택적)
 }
+```
+
+---
+
+### WeekInfo
+
+주 정보를 나타내는 인터페이스입니다. `onWeekChange` 콜백에서 사용됩니다.
+
+```tsx
+import { WeekInfo, getWeekInfo } from "@ehfuse/mui-popup-calendar";
+
+interface WeekInfo {
+    weekOfMonth: number; // 해당 월의 몇 번째 주인지 (1-6)
+    startDate: Date; // 주의 시작일 (일요일)
+    endDate: Date; // 주의 종료일 (토요일)
+}
+
+// 유틸리티 함수
+const weekInfo = getWeekInfo(new Date()); // WeekInfo 반환
+```
+
+---
+
+### CalendarStyles
+
+캘린더 스타일 커스터마이징을 위한 인터페이스입니다.
+
+```tsx
+import type { CalendarStyles } from "@ehfuse/mui-popup-calendar";
+
+interface CalendarStyles {
+    selectedColor?: string; // 선택된 날짜 배경 색상 (기본값: 'primary.main')
+    todayBorderColor?: string; // 오늘 날짜 테두리 색상 (기본값: selectedColor)
+    holidayColor?: string; // 공휴일/일요일 텍스트 색상 (기본값: 'error.main')
+    saturdayColor?: string; // 토요일 텍스트 색상 (기본값: 'primary.main')
+}
+```
+
+**예시:**
+
+```tsx
+<PopupCalendar
+    styles={{
+        selectedColor: "secondary.main",
+        todayBorderColor: "warning.main",
+        holidayColor: "error.dark",
+        saturdayColor: "info.main",
+    }}
+/>
 ```
 
 ---

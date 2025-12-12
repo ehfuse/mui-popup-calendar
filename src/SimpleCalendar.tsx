@@ -21,7 +21,8 @@ import {
 } from "@ehfuse/overlay-scrollbar";
 import { TimeSelector } from "./TimeSelector";
 import { SimpleCalendarProps, ViewMode } from "./types";
-import { defaultLocale, resolveLocale } from "./locale";
+import { resolveLocale } from "./locale";
+import { getWeekInfo, isSameDay, isSameWeek } from "./utils";
 
 // 상수
 const HEADER_HEIGHT = 48;
@@ -47,17 +48,19 @@ export function SimpleCalendar({
     minDate,
     maxDate,
     holidays = [],
-    selectedColor = "primary.main",
+    styles,
     onClose,
     showToday = true,
     showFooter: showFooterProp = true,
     autoApply = false,
     // 년월만 선택
     monthOnly = false,
-    onMonthSelect,
     // 년도만 선택
     yearOnly = false,
-    onYearSelect,
+    // 년월/년도 변경 콜백
+    onMonthChange,
+    onYearChange,
+    onWeekChange,
     // 시간 선택 관련
     showTimePicker = false,
     timeValue,
@@ -72,6 +75,12 @@ export function SimpleCalendar({
     locale,
     texts,
 }: SimpleCalendarProps) {
+    // 스타일 옵션 추출 (기본값 적용)
+    const selectedColor = styles?.selectedColor ?? "primary.main";
+    const todayBorderColor = styles?.todayBorderColor ?? selectedColor;
+    const holidayColor = styles?.holidayColor ?? "error.main";
+    const saturdayColor = styles?.saturdayColor ?? "primary.main";
+
     // 로케일 해석 및 병합 (texts가 있으면 부분 덮어쓰기)
     const resolvedLocale = resolveLocale(locale);
     const mergedLocale = useMemo(
@@ -199,21 +208,56 @@ export function SimpleCalendar({
         return false;
     };
 
-    const isSameDay = (d1: Date | null, d2: Date | null): boolean => {
-        if (!d1 || !d2) return false;
+    // 시간이 변경되었는지 확인
+    const isTimeChanged = (
+        hour: number,
+        minute: number,
+        second?: number
+    ): boolean => {
+        if (!timeValue) return true;
+        const hasSeconds =
+            timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
+        if (
+            parseInt(timeValue.hour, 10) !== hour ||
+            parseInt(timeValue.minute, 10) !== minute
+        )
+            return true;
+        if (hasSeconds && parseInt(timeValue.second || "0", 10) !== second)
+            return true;
+        return false;
+    };
+
+    // 년도가 변경되었는지 확인 (selectedDate 또는 오늘 날짜 기준)
+    const isYearChanged = (newYear: number): boolean => {
+        const compareDate = selectedDate || today;
+        return compareDate.getFullYear() !== newYear;
+    };
+
+    // 월이 변경되었는지 확인 (selectedDate 또는 오늘 날짜 기준, month는 1-indexed)
+    const isMonthChanged = (newYear: number, newMonth: number): boolean => {
+        const compareDate = selectedDate || today;
         return (
-            d1.getFullYear() === d2.getFullYear() &&
-            d1.getMonth() === d2.getMonth() &&
-            d1.getDate() === d2.getDate()
+            compareDate.getFullYear() !== newYear ||
+            compareDate.getMonth() + 1 !== newMonth
         );
     };
 
+    // 주가 변경되었는지 확인
+    const isWeekChanged = (date: Date): boolean => {
+        const compareDate = selectedDate || today;
+        return !isSameWeek(date, compareDate);
+    };
+
     const goToPrevMonth = () => {
-        setViewDate(new Date(year, month - 1, 1));
+        const newDate = new Date(year, month - 1, 1);
+        setViewDate(newDate);
+        setTempSelectedDate(null);
     };
 
     const goToNextMonth = () => {
-        setViewDate(new Date(year, month + 1, 1));
+        const newDate = new Date(year, month + 1, 1);
+        setViewDate(newDate);
+        setTempSelectedDate(null);
     };
 
     // 휠 이벤트로 이전/다음 달 이동
@@ -234,9 +278,41 @@ export function SimpleCalendar({
         if (!isDateDisabled(date)) {
             if (autoApply) {
                 // autoApply가 true면 바로 적용 (닫지 않음)
-                onSelect(date);
-                // 시간 선택이 있으면 시간도 같이 적용
-                if (showTimePicker && onTimeChange) {
+                // 날짜가 변경되었을 때만 이벤트 발생
+                if (!isSameDay(selectedDate, date)) {
+                    onSelect(date);
+                    // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
+                    if (isYearChanged(date.getFullYear())) {
+                        onYearChange?.(date.getFullYear());
+                    }
+                    if (
+                        isMonthChanged(date.getFullYear(), date.getMonth() + 1)
+                    ) {
+                        onMonthChange?.(
+                            date.getFullYear(),
+                            date.getMonth() + 1
+                        );
+                    }
+                    // 주 변경 콜백 (변경되었을 때만)
+                    if (isWeekChanged(date)) {
+                        const weekInfo = getWeekInfo(date);
+                        onWeekChange?.(
+                            weekInfo.weekOfMonth,
+                            weekInfo.startDate,
+                            weekInfo.endDate
+                        );
+                    }
+                }
+                // 시간 선택이 있으면 시간도 같이 적용 (변경되었을 때만)
+                if (
+                    showTimePicker &&
+                    onTimeChange &&
+                    isTimeChanged(
+                        tempTime.hour,
+                        tempTime.minute,
+                        tempTime.second
+                    )
+                ) {
                     const hasSeconds =
                         timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
                     onTimeChange(
@@ -255,9 +331,35 @@ export function SimpleCalendar({
         if (!isDateDisabled(today)) {
             if (autoApply) {
                 // autoApply가 true면 바로 적용 (닫지 않음)
-                onSelect(today);
-                // 시간 선택이 있으면 시간도 같이 적용
-                if (showTimePicker && onTimeChange) {
+                // 날짜가 변경되었을 때만 이벤트 발생
+                if (!isSameDay(selectedDate, today)) {
+                    onSelect(today);
+                    // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
+                    if (isYearChanged(today.getFullYear())) {
+                        onYearChange?.(today.getFullYear());
+                    }
+                    if (
+                        isMonthChanged(
+                            today.getFullYear(),
+                            today.getMonth() + 1
+                        )
+                    ) {
+                        onMonthChange?.(
+                            today.getFullYear(),
+                            today.getMonth() + 1
+                        );
+                    }
+                }
+                // 시간 선택이 있으면 시간도 같이 적용 (변경되었을 때만)
+                if (
+                    showTimePicker &&
+                    onTimeChange &&
+                    isTimeChanged(
+                        tempTime.hour,
+                        tempTime.minute,
+                        tempTime.second
+                    )
+                ) {
                     const hasSeconds =
                         timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
                     onTimeChange(
@@ -276,10 +378,41 @@ export function SimpleCalendar({
 
     const handleConfirm = () => {
         if (tempSelectedDate) {
-            onSelect(tempSelectedDate);
+            // 날짜가 변경되었을 때만 이벤트 발생
+            if (!isSameDay(selectedDate, tempSelectedDate)) {
+                onSelect(tempSelectedDate);
+                // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
+                if (isYearChanged(tempSelectedDate.getFullYear())) {
+                    onYearChange?.(tempSelectedDate.getFullYear());
+                }
+                if (
+                    isMonthChanged(
+                        tempSelectedDate.getFullYear(),
+                        tempSelectedDate.getMonth() + 1
+                    )
+                ) {
+                    onMonthChange?.(
+                        tempSelectedDate.getFullYear(),
+                        tempSelectedDate.getMonth() + 1
+                    );
+                }
+                // 주 변경 콜백 (변경되었을 때만)
+                if (isWeekChanged(tempSelectedDate)) {
+                    const weekInfo = getWeekInfo(tempSelectedDate);
+                    onWeekChange?.(
+                        weekInfo.weekOfMonth,
+                        weekInfo.startDate,
+                        weekInfo.endDate
+                    );
+                }
+            }
         }
-        // 시간 선택이 있으면 시간도 적용
-        if (showTimePicker && onTimeChange) {
+        // 시간 선택이 있으면 시간도 적용 (변경되었을 때만)
+        if (
+            showTimePicker &&
+            onTimeChange &&
+            isTimeChanged(tempTime.hour, tempTime.minute, tempTime.second)
+        ) {
             const hasSeconds =
                 timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
             onTimeChange(
@@ -303,8 +436,8 @@ export function SimpleCalendar({
             second: second ?? 0,
         });
 
-        // autoApply면 바로 적용
-        if (autoApply && onTimeChange) {
+        // autoApply면 바로 적용 (변경되었을 때만)
+        if (autoApply && onTimeChange && isTimeChanged(hour, minute, second)) {
             const hasSeconds =
                 timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
             onTimeChange(hour, minute, hasSeconds ? second : undefined);
@@ -321,8 +454,10 @@ export function SimpleCalendar({
     const handleYearSelect = (selectedYear: number) => {
         if (yearOnly) {
             if (autoApply) {
-                // autoApply가 true면 바로 적용하고 닫기
-                onYearSelect?.(selectedYear);
+                // autoApply가 true면 바로 적용하고 닫기 (변경되었을 때만)
+                if (isYearChanged(selectedYear)) {
+                    onYearChange?.(selectedYear);
+                }
                 onClose();
             } else {
                 // autoApply가 false면 임시 저장만
@@ -337,7 +472,10 @@ export function SimpleCalendar({
     // yearOnly 모드에서 확인 버튼 클릭
     const handleYearConfirm = () => {
         if (tempSelectedYear !== null) {
-            onYearSelect?.(tempSelectedYear);
+            // 년도가 변경되었을 때만 이벤트 발생
+            if (isYearChanged(tempSelectedYear)) {
+                onYearChange?.(tempSelectedYear);
+            }
         }
         onClose();
     };
@@ -346,8 +484,13 @@ export function SimpleCalendar({
     const handleMonthSelect = (selectedMonth: number) => {
         if (monthOnly) {
             if (autoApply) {
-                // autoApply가 true면 바로 적용하고 닫기
-                onMonthSelect?.(tempYear, selectedMonth);
+                // autoApply가 true면 바로 적용하고 닫기 (변경되었을 때만)
+                if (isYearChanged(tempYear)) {
+                    onYearChange?.(tempYear);
+                }
+                if (isMonthChanged(tempYear, selectedMonth + 1)) {
+                    onMonthChange?.(tempYear, selectedMonth + 1);
+                }
                 onClose();
             } else {
                 // autoApply가 false면 임시 저장만
@@ -356,13 +499,20 @@ export function SimpleCalendar({
         } else {
             setViewDate(new Date(tempYear, selectedMonth, 1));
             setViewMode("calendar");
+            setTempSelectedDate(null);
         }
     };
 
     // monthOnly 모드에서 확인 버튼 클릭
     const handleMonthConfirm = () => {
         if (tempMonth !== null) {
-            onMonthSelect?.(tempYear, tempMonth);
+            // 년월이 변경되었을 때만 이벤트 발생
+            if (isYearChanged(tempYear)) {
+                onYearChange?.(tempYear);
+            }
+            if (isMonthChanged(tempYear, tempMonth + 1)) {
+                onMonthChange?.(tempYear, tempMonth + 1);
+            }
         }
         onClose();
     };
@@ -672,9 +822,9 @@ export function SimpleCalendar({
                                 fontSize: "0.7rem",
                                 color:
                                     i === 0
-                                        ? "error.main"
+                                        ? holidayColor
                                         : i === 6
-                                        ? "primary.main"
+                                        ? saturdayColor
                                         : "text.secondary",
                                 fontWeight: 500,
                             }}
@@ -695,7 +845,10 @@ export function SimpleCalendar({
                     }}
                 >
                     {calendarDays.map((date, index) => {
-                        const isSelected = isSameDay(date, tempSelectedDate);
+                        // autoApply일 때는 selectedDate만, 아닐 때는 tempSelectedDate 우선
+                        const isSelected = autoApply
+                            ? isSameDay(date, selectedDate)
+                            : isSameDay(date, tempSelectedDate ?? selectedDate);
                         const isToday = isSameDay(date, today);
                         const isDisabled = isDateDisabled(date);
                         const dayOfWeek = date.getDay();
@@ -729,13 +882,13 @@ export function SimpleCalendar({
                                         : !isCurrentMonth
                                         ? "text.disabled"
                                         : isHoliday || dayOfWeek === 0
-                                        ? "error.main"
+                                        ? holidayColor
                                         : dayOfWeek === 6
-                                        ? "primary.main"
+                                        ? saturdayColor
                                         : "text.primary",
                                     opacity: isCurrentMonth ? 1 : 0.4,
                                     border: isToday ? 1 : 0,
-                                    borderColor: selectedColor,
+                                    borderColor: todayBorderColor,
                                     "&:hover": {
                                         bgcolor: isDisabled
                                             ? "transparent"
@@ -865,9 +1018,9 @@ export function SimpleCalendar({
                 </Button>
                 <Button
                     size="small"
-                    onClick={handleMonthConfirm}
+                    onClick={handleConfirm}
                     variant="contained"
-                    disabled={tempMonth === null}
+                    disabled={tempSelectedDate === null}
                 >
                     {mergedLocale.confirm}
                 </Button>

@@ -11,6 +11,8 @@
     -   [PopupCalendarMode](#popupcalendarmode)
     -   [TimeFormat](#timeformat)
     -   [TimeValue](#timevalue)
+    -   [WeekInfo](#weekinfo)
+    -   [CalendarStyles](#calendarstyles)
     -   [LocaleProp](#localeprop)
     -   [CalendarLocale](#calendarlocale)
     -   [CalendarTexts](#calendartexts)
@@ -30,35 +32,36 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 
 #### Props
 
-| Prop               | Type                                                      | Default          | Required | Description                                       |
-| ------------------ | --------------------------------------------------------- | ---------------- | -------- | ------------------------------------------------- |
-| `open`             | `boolean`                                                 | -                | ✓        | Popup open state                                  |
-| `onClose`          | `() => void`                                              | -                | ✓        | Close callback                                    |
-| `anchorEl`         | `AnchorElType`                                            | -                | -        | Popover anchor element (ref object also accepted) |
-| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                 | `"date"`         | -        | Mode (date, time, datetime)                       |
-| `selectedDate`     | `Date \| null`                                            | -                | -        | Selected date                                     |
-| `onDateChange`     | `(date: Date) => void`                                    | -                | -        | Date change callback                              |
-| `timeValue`        | [`TimeValue`](#timevalue)                                 | -                | -        | Time value                                        |
-| `onTimeChange`     | `(hour: string, minute: string, second?: string) => void` | -                | -        | Time change callback                              |
-| `minDate`          | `Date`                                                    | -                | -        | Minimum selectable date                           |
-| `maxDate`          | `Date`                                                    | -                | -        | Maximum selectable date                           |
-| `holidays`         | `Date[]`                                                  | `[]`             | -        | Holiday array                                     |
-| `selectedColor`    | `string`                                                  | `"primary.main"` | -        | Selected date color                               |
-| `showToday`        | `boolean`                                                 | `true`           | -        | Show today button                                 |
-| `showFooter`       | `boolean`                                                 | `true`           | -        | Show footer                                       |
-| `autoApply`        | `boolean`                                                 | `false`          | -        | Apply selection immediately                       |
-| `timeFormat`       | [`TimeFormat`](#timeformat)                               | `"HH:mm"`        | -        | Time format                                       |
-| `minTime`          | `string`                                                  | -                | -        | Minimum selectable time                           |
-| `maxTime`          | `string`                                                  | -                | -        | Maximum selectable time                           |
-| `minuteStep`       | `number`                                                  | `1`              | -        | Minute step interval                              |
-| `secondStep`       | `number`                                                  | `1`              | -        | Second step interval                              |
-| `hideDisabledTime` | `boolean`                                                 | `false`          | -        | Hide disabled time options                        |
-| `locale`           | [`LocaleProp`](#localeprop)                               | `"ko"`           | -        | Locale (string or object)                         |
-| `texts`            | [`CalendarTexts`](#calendartexts)                         | -                | -        | Partial text overrides                            |
-| `monthOnly`        | `boolean`                                                 | `false`          | -        | Month-only selection mode                         |
-| `onMonthSelect`    | `(year: number, month: number) => void`                   | -                | -        | Month selection callback                          |
-| `yearOnly`         | `boolean`                                                 | `false`          | -        | Year-only selection mode                          |
-| `onYearSelect`     | `(year: number) => void`                                  | -                | -        | Year selection callback                           |
+| Prop               | Type                                                            | Default   | Required | Description                                       |
+| ------------------ | --------------------------------------------------------------- | --------- | -------- | ------------------------------------------------- |
+| `open`             | `boolean`                                                       | -         | ✓        | Popup open state                                  |
+| `onClose`          | `() => void`                                                    | -         | ✓        | Close callback                                    |
+| `anchorEl`         | `AnchorElType`                                                  | -         | -        | Popover anchor element (ref object also accepted) |
+| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                       | `"date"`  | -        | Mode (date, time, datetime)                       |
+| `selectedDate`     | `Date \| null`                                                  | -         | -        | Selected date                                     |
+| `onDateChange`     | `(date: Date) => void`                                          | -         | -        | Date change callback                              |
+| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -        | Time value                                        |
+| `onTimeChange`     | `(hour: string, minute: string, second?: string) => void`       | -         | -        | Time change callback                              |
+| `minDate`          | `Date`                                                          | -         | -        | Minimum selectable date                           |
+| `maxDate`          | `Date`                                                          | -         | -        | Maximum selectable date                           |
+| `holidays`         | `Date[]`                                                        | `[]`      | -        | Holiday array                                     |
+| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -        | Style options                                     |
+| `showToday`        | `boolean`                                                       | `true`    | -        | Show today button                                 |
+| `showFooter`       | `boolean`                                                       | `true`    | -        | Show footer                                       |
+| `autoApply`        | `boolean`                                                       | `false`   | -        | Apply selection immediately                       |
+| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -        | Time format                                       |
+| `minTime`          | `string`                                                        | -         | -        | Minimum selectable time                           |
+| `maxTime`          | `string`                                                        | -         | -        | Maximum selectable time                           |
+| `minuteStep`       | `number`                                                        | `1`       | -        | Minute step interval                              |
+| `secondStep`       | `number`                                                        | `1`       | -        | Second step interval                              |
+| `hideDisabledTime` | `boolean`                                                       | `false`   | -        | Hide disabled time options                        |
+| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -        | Locale (string or object)                         |
+| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -        | Partial text overrides                            |
+| `monthOnly`        | `boolean`                                                       | `false`   | -        | Month-only selection mode                         |
+| `yearOnly`         | `boolean`                                                       | `false`   | -        | Year-only selection mode                          |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -        | Month change callback (on confirm)                |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -        | Year change callback (on confirm)                 |
+| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -        | Week change callback (on confirm)                 |
 
 > **Note**: PopupCalendar extends MUI `PopoverProps`. You can use all Popover props such as `anchorOrigin`, `transformOrigin`, `slotProps`, etc.
 
@@ -74,33 +77,34 @@ import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
 
 #### Props
 
-| Prop               | Type                                                      | Default          | Required | Description                 |
-| ------------------ | --------------------------------------------------------- | ---------------- | -------- | --------------------------- |
-| `selectedDate`     | `Date \| null`                                            | -                | ✓        | Selected date               |
-| `onSelect`         | `(date: Date) => void`                                    | -                | ✓        | Date selection callback     |
-| `onClose`          | `() => void`                                              | -                | ✓        | Close callback              |
-| `minDate`          | `Date`                                                    | -                | -        | Minimum selectable date     |
-| `maxDate`          | `Date`                                                    | -                | -        | Maximum selectable date     |
-| `holidays`         | `Date[]`                                                  | `[]`             | -        | Holiday array               |
-| `selectedColor`    | `string`                                                  | `"primary.main"` | -        | Selected date color         |
-| `showToday`        | `boolean`                                                 | `true`           | -        | Show today button           |
-| `showFooter`       | `boolean`                                                 | `true`           | -        | Show footer                 |
-| `autoApply`        | `boolean`                                                 | `false`          | -        | Apply selection immediately |
-| `showTimePicker`   | `boolean`                                                 | `false`          | -        | Show time picker            |
-| `timeValue`        | [`TimeValue`](#timevalue)                                 | -                | -        | Time value                  |
-| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void` | -                | -        | Time change callback        |
-| `timeFormat`       | [`TimeFormat`](#timeformat)                               | `"HH:mm"`        | -        | Time format                 |
-| `minTime`          | `string`                                                  | -                | -        | Minimum selectable time     |
-| `maxTime`          | `string`                                                  | -                | -        | Maximum selectable time     |
-| `minuteStep`       | `number`                                                  | `1`              | -        | Minute step interval        |
-| `secondStep`       | `number`                                                  | `1`              | -        | Second step interval        |
-| `hideDisabledTime` | `boolean`                                                 | `false`          | -        | Hide disabled time options  |
-| `locale`           | [`LocaleProp`](#localeprop)                               | `"ko"`           | -        | Locale (string or object)   |
-| `texts`            | [`CalendarTexts`](#calendartexts)                         | -                | -        | Partial text overrides      |
-| `monthOnly`        | `boolean`                                                 | `false`          | -        | Month-only selection mode   |
-| `onMonthSelect`    | `(year: number, month: number) => void`                   | -                | -        | Month selection callback    |
-| `yearOnly`         | `boolean`                                                 | `false`          | -        | Year-only selection mode    |
-| `onYearSelect`     | `(year: number) => void`                                  | -                | -        | Year selection callback     |
+| Prop               | Type                                                            | Default   | Required | Description                        |
+| ------------------ | --------------------------------------------------------------- | --------- | -------- | ---------------------------------- |
+| `selectedDate`     | `Date \| null`                                                  | -         | ✓        | Selected date                      |
+| `onSelect`         | `(date: Date) => void`                                          | -         | ✓        | Date selection callback            |
+| `onClose`          | `() => void`                                                    | -         | ✓        | Close callback                     |
+| `minDate`          | `Date`                                                          | -         | -        | Minimum selectable date            |
+| `maxDate`          | `Date`                                                          | -         | -        | Maximum selectable date            |
+| `holidays`         | `Date[]`                                                        | `[]`      | -        | Holiday array                      |
+| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -        | Style options                      |
+| `showToday`        | `boolean`                                                       | `true`    | -        | Show today button                  |
+| `showFooter`       | `boolean`                                                       | `true`    | -        | Show footer                        |
+| `autoApply`        | `boolean`                                                       | `false`   | -        | Apply selection immediately        |
+| `showTimePicker`   | `boolean`                                                       | `false`   | -        | Show time picker                   |
+| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -        | Time value                         |
+| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void`       | -         | -        | Time change callback               |
+| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -        | Time format                        |
+| `minTime`          | `string`                                                        | -         | -        | Minimum selectable time            |
+| `maxTime`          | `string`                                                        | -         | -        | Maximum selectable time            |
+| `minuteStep`       | `number`                                                        | `1`       | -        | Minute step interval               |
+| `secondStep`       | `number`                                                        | `1`       | -        | Second step interval               |
+| `hideDisabledTime` | `boolean`                                                       | `false`   | -        | Hide disabled time options         |
+| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -        | Locale (string or object)          |
+| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -        | Partial text overrides             |
+| `monthOnly`        | `boolean`                                                       | `false`   | -        | Month-only selection mode          |
+| `yearOnly`         | `boolean`                                                       | `false`   | -        | Year-only selection mode           |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -        | Month change callback (on confirm) |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -        | Year change callback (on confirm)  |
+| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -        | Week change callback (on confirm)  |
 
 ---
 
@@ -202,6 +206,55 @@ interface TimeValue {
     minute: string; // Minute (00-59)
     second?: string; // Second (00-59, optional)
 }
+```
+
+---
+
+### WeekInfo
+
+Interface representing week information. Used in `onWeekChange` callback.
+
+```tsx
+import { WeekInfo, getWeekInfo } from "@ehfuse/mui-popup-calendar";
+
+interface WeekInfo {
+    weekOfMonth: number; // Week number of the month (1-6)
+    startDate: Date; // Start of the week (Sunday)
+    endDate: Date; // End of the week (Saturday)
+}
+
+// Utility function
+const weekInfo = getWeekInfo(new Date()); // Returns WeekInfo
+```
+
+---
+
+### CalendarStyles
+
+Interface for calendar style customization.
+
+```tsx
+import type { CalendarStyles } from "@ehfuse/mui-popup-calendar";
+
+interface CalendarStyles {
+    selectedColor?: string; // Selected date background color (default: 'primary.main')
+    todayBorderColor?: string; // Today's date border color (default: selectedColor)
+    holidayColor?: string; // Holiday/Sunday text color (default: 'error.main')
+    saturdayColor?: string; // Saturday text color (default: 'primary.main')
+}
+```
+
+**Example:**
+
+```tsx
+<PopupCalendar
+    styles={{
+        selectedColor: "secondary.main",
+        todayBorderColor: "warning.main",
+        holidayColor: "error.dark",
+        saturdayColor: "info.main",
+    }}
+/>
 ```
 
 ---

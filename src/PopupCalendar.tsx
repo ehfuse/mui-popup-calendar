@@ -46,7 +46,7 @@ export function PopupCalendar({
     minDate,
     maxDate,
     holidays = [],
-    selectedColor = "primary.main",
+    styles,
     showToday = true,
     showFooter = true,
     autoApply = false,
@@ -64,10 +64,12 @@ export function PopupCalendar({
     texts,
     // 년월만 선택
     monthOnly = false,
-    onMonthSelect,
     // 년도만 선택
     yearOnly = false,
-    onYearSelect,
+    // 년월/년도 변경 콜백
+    onMonthChange,
+    onYearChange,
+    onWeekChange,
     ...popoverProps
 }: PopupCalendarProps) {
     const hasSeconds = timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
@@ -219,7 +221,7 @@ export function PopupCalendar({
                 minDate={minDate}
                 maxDate={maxDate}
                 holidays={holidays}
-                selectedColor={selectedColor}
+                styles={styles}
                 showToday={showToday}
                 showFooter={showFooter}
                 autoApply={autoApply}
@@ -235,9 +237,10 @@ export function PopupCalendar({
                 locale={locale}
                 texts={texts}
                 monthOnly={monthOnly}
-                onMonthSelect={onMonthSelect}
                 yearOnly={yearOnly}
-                onYearSelect={onYearSelect}
+                onMonthChange={onMonthChange}
+                onYearChange={onYearChange}
+                onWeekChange={onWeekChange}
             />
         </Popover>
     );

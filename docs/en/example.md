@@ -8,6 +8,10 @@
     -   [Date + Time Selection](#date--time-selection)
     -   [Month Selection](#month-selection)
     -   [Year Selection](#year-selection)
+-   [Change Events](#change-events)
+    -   [Week Change Detection](#week-change-detection)
+    -   [Month Change Detection](#month-change-detection)
+    -   [Year Change Detection](#year-change-detection)
 -   [Advanced Usage](#advanced-usage)
     -   [Date Range Restriction](#date-range-restriction)
     -   [Time Range Restriction](#time-range-restriction)
@@ -172,7 +176,7 @@ function MonthPickerExample() {
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
-    const handleMonthSelect = (year: number, month: number) => {
+    const handleMonthChange = (year: number, month: number) => {
         setSelectedYear(year);
         setSelectedMonth(month);
     };
@@ -192,7 +196,7 @@ function MonthPickerExample() {
                 anchorEl={anchorRef}
                 mode="date"
                 monthOnly={true}
-                onMonthSelect={handleMonthSelect}
+                onMonthChange={handleMonthChange}
             />
         </>
     );
@@ -230,11 +234,114 @@ function YearPickerExample() {
                 anchorEl={anchorRef}
                 mode="date"
                 yearOnly={true}
-                onYearSelect={(year) => setSelectedYear(year)}
+                onYearChange={(year) => setSelectedYear(year)}
             />
         </>
     );
 }
+```
+
+---
+
+## Change Events
+
+You can receive callbacks when the week/month/year changes during date selection.
+
+### Week Change Detection
+
+Receive a callback when the selected date's week changes.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import type { WeekInfo } from "@ehfuse/mui-popup-calendar";
+
+function WeekChangeExample() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [weekInfo, setWeekInfo] = useState<WeekInfo | null>(null);
+
+    const handleWeekChange = (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => {
+        setWeekInfo({ weekOfMonth, startDate, endDate });
+        console.log(
+            `Week ${weekOfMonth}: ${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
+        );
+    };
+
+    return (
+        <>
+            <Button
+                ref={anchorRef}
+                variant="outlined"
+                onClick={() => setOpen(true)}
+            >
+                {selectedDate?.toLocaleDateString() ?? "Select Date"}
+            </Button>
+            {weekInfo && (
+                <p>
+                    Week {weekInfo.weekOfMonth} (
+                    {weekInfo.startDate.toLocaleDateString()} ~{" "}
+                    {weekInfo.endDate.toLocaleDateString()})
+                </p>
+            )}
+            <PopupCalendar
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                mode="date"
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+                onWeekChange={handleWeekChange}
+            />
+        </>
+    );
+}
+```
+
+---
+
+### Month Change Detection
+
+Receive a callback when the selected date's month changes.
+
+```tsx
+<PopupCalendar
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
+    mode="date"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    onMonthChange={(year, month) => {
+        console.log(`Changed to ${year}/${month}`);
+    }}
+/>
+```
+
+---
+
+### Year Change Detection
+
+Receive a callback when the selected date's year changes.
+
+```tsx
+<PopupCalendar
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
+    mode="date"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    onYearChange={(year) => {
+        console.log(`Changed to ${year}`);
+    }}
+/>
 ```
 
 ---

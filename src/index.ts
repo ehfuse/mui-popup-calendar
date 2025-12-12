@@ -14,6 +14,7 @@ export type {
     TimeValue,
     AnchorElType,
     PopupCalendarMode,
+    CalendarStyles,
     SimpleCalendarProps,
     TimePickerProps,
     TimeSelectorProps,
@@ -23,6 +24,10 @@ export type {
     LocaleKey,
     LocaleProp,
 } from "./types";
+
+// Utils
+export type { WeekInfo } from "./utils";
+export { getWeekInfo, isSameDay, isSameWeek } from "./utils";
 
 // Locales
 export {

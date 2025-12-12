@@ -8,6 +8,10 @@
     -   [날짜+시간 선택](#날짜시간-선택)
     -   [년월 선택](#년월-선택)
     -   [년도 선택](#년도-선택)
+-   [변경 이벤트](#변경-이벤트)
+    -   [주 변경 감지](#주-변경-감지)
+    -   [월 변경 감지](#월-변경-감지)
+    -   [년도 변경 감지](#년도-변경-감지)
 -   [고급 사용법](#고급-사용법)
     -   [날짜 범위 제한](#날짜-범위-제한)
     -   [시간 범위 제한](#시간-범위-제한)
@@ -172,7 +176,7 @@ function MonthPickerExample() {
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
-    const handleMonthSelect = (year: number, month: number) => {
+    const handleMonthChange = (year: number, month: number) => {
         setSelectedYear(year);
         setSelectedMonth(month);
     };
@@ -192,7 +196,7 @@ function MonthPickerExample() {
                 anchorEl={anchorRef}
                 mode="date"
                 monthOnly={true}
-                onMonthSelect={handleMonthSelect}
+                onMonthChange={handleMonthChange}
             />
         </>
     );
@@ -230,11 +234,114 @@ function YearPickerExample() {
                 anchorEl={anchorRef}
                 mode="date"
                 yearOnly={true}
-                onYearSelect={(year) => setSelectedYear(year)}
+                onYearChange={(year) => setSelectedYear(year)}
             />
         </>
     );
 }
+```
+
+---
+
+## 변경 이벤트
+
+날짜 선택 시 주/월/년도가 변경되었을 때 콜백을 받을 수 있습니다.
+
+### 주 변경 감지
+
+선택한 날짜의 주가 변경되었을 때 콜백을 받습니다.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import type { WeekInfo } from "@ehfuse/mui-popup-calendar";
+
+function WeekChangeExample() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [weekInfo, setWeekInfo] = useState<WeekInfo | null>(null);
+
+    const handleWeekChange = (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => {
+        setWeekInfo({ weekOfMonth, startDate, endDate });
+        console.log(
+            `${weekOfMonth}주차: ${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
+        );
+    };
+
+    return (
+        <>
+            <Button
+                ref={anchorRef}
+                variant="outlined"
+                onClick={() => setOpen(true)}
+            >
+                {selectedDate?.toLocaleDateString("ko-KR") ?? "날짜 선택"}
+            </Button>
+            {weekInfo && (
+                <p>
+                    {weekInfo.weekOfMonth}주차 (
+                    {weekInfo.startDate.toLocaleDateString()} ~{" "}
+                    {weekInfo.endDate.toLocaleDateString()})
+                </p>
+            )}
+            <PopupCalendar
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                mode="date"
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+                onWeekChange={handleWeekChange}
+            />
+        </>
+    );
+}
+```
+
+---
+
+### 월 변경 감지
+
+선택한 날짜의 월이 변경되었을 때 콜백을 받습니다.
+
+```tsx
+<PopupCalendar
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
+    mode="date"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    onMonthChange={(year, month) => {
+        console.log(`${year}년 ${month}월로 변경됨`);
+    }}
+/>
+```
+
+---
+
+### 년도 변경 감지
+
+선택한 날짜의 년도가 변경되었을 때 콜백을 받습니다.
+
+```tsx
+<PopupCalendar
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
+    mode="date"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    onYearChange={(year) => {
+        console.log(`${year}년으로 변경됨`);
+    }}
+/>
 ```
 
 ---

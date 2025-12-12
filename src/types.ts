@@ -65,6 +65,14 @@ export {
     trLocale,
 } from "./locale";
 
+/** 캘린더 스타일 옵션 */
+export interface CalendarStyles {
+    selectedColor?: string; // 선택된 날짜 배경 색상 (기본값: 'primary.main')
+    todayBorderColor?: string; // 오늘 날짜 테두리 색상 (기본값: selectedColor)
+    holidayColor?: string; // 공휴일/일요일 텍스트 색상 (기본값: 'error.main')
+    saturdayColor?: string; // 토요일 텍스트 색상 (기본값: 'primary.main')
+}
+
 /** SimpleCalendar 컴포넌트 Props */
 export interface SimpleCalendarProps {
     selectedDate: Date | null; // 선택된 날짜
@@ -72,15 +80,20 @@ export interface SimpleCalendarProps {
     minDate?: Date; // 선택 가능한 최소 날짜
     maxDate?: Date; // 선택 가능한 최대 날짜
     holidays?: Date[]; // 공휴일 배열
-    selectedColor?: string; // 선택된 날짜 색상
+    styles?: CalendarStyles; // 스타일 옵션
     onClose: () => void; // 닫기 콜백
     showToday?: boolean; // 오늘 버튼 표시 여부
     showFooter?: boolean; // 푸터 표시 여부 (기본값: true)
     autoApply?: boolean; // 선택 즉시 적용 여부 (기본값: false)
     monthOnly?: boolean; // 년월만 선택 (기본값: false)
-    onMonthSelect?: (year: number, month: number) => void; // 년월 선택 콜백
     yearOnly?: boolean; // 년도만 선택 (기본값: false)
-    onYearSelect?: (year: number) => void; // 년도 선택 콜백
+    onMonthChange?: (year: number, month: number) => void; // 년월 변경 콜백
+    onYearChange?: (year: number) => void; // 년도 변경 콜백
+    onWeekChange?: (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => void; // 주 변경 콜백 (해당 월의 몇번째 주, 시작일, 종료일)
     showTimePicker?: boolean; // 시간 선택 표시 여부
     timeValue?: TimeValue; // 시간 값
     onTimeChange?: (hour: number, minute: number, second?: number) => void; // 시간 변경 콜백
@@ -133,12 +146,19 @@ export interface PopupCalendarProps
     mode?: PopupCalendarMode; // 모드 (date, time, datetime)
     selectedDate?: Date | null; // 선택된 날짜
     onDateChange?: (date: Date) => void; // 날짜 변경 콜백
-    timeValue?: TimeValue; // 시간 값
+    onMonthChange?: (year: number, month: number) => void; // 년월 변경 콜백 (네비게이션 시)
+    onYearChange?: (year: number) => void; // 년도 변경 콜백 (네비게이션 시)
     onTimeChange?: (hour: string, minute: string, second?: string) => void; // 시간 변경 콜백
+    onWeekChange?: (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => void; // 주 변경 콜백
+    timeValue?: TimeValue; // 시간 값
     minDate?: Date; // 선택 가능한 최소 날짜
     maxDate?: Date; // 선택 가능한 최대 날짜
     holidays?: Date[]; // 공휴일 배열
-    selectedColor?: string; // 선택된 날짜 색상
+    styles?: CalendarStyles; // 스타일 옵션
     showToday?: boolean; // 오늘 버튼 표시 여부
     showFooter?: boolean; // 푸터 표시 여부 (기본값: true)
     autoApply?: boolean; // 선택 즉시 적용 여부 (기본값: false)
@@ -151,7 +171,5 @@ export interface PopupCalendarProps
     locale?: LocaleProp; // 로케일 (기본값: 'ko')
     texts?: CalendarTexts; // 텍스트 부분 커스터마이징
     monthOnly?: boolean; // 년월만 선택 (기본값: false)
-    onMonthSelect?: (year: number, month: number) => void; // 년월 선택 콜백
     yearOnly?: boolean; // 년도만 선택 (기본값: false)
-    onYearSelect?: (year: number) => void; // 년도 선택 콜백
 }
