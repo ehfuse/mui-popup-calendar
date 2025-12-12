@@ -8,7 +8,7 @@ import {
     Switch,
     TextField,
 } from "@mui/material";
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 export default function SimpleCalendarPage() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());

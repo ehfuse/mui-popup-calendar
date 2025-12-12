@@ -8,7 +8,7 @@ import {
     Switch,
     Divider,
 } from "@mui/material";
-import { DatePicker, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 export default function MonthPickerPage() {
     // 년월 선택 상태

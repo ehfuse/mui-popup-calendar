@@ -5,7 +5,7 @@ A MUI-based popup calendar and time picker component library.
 ## Installation
 
 ```bash
-npm install @ehfuse/mui-popup-calendar
+npm install @ehfuse/mui-datetime-picker
 ```
 
 ### Peer Dependencies
@@ -25,7 +25,7 @@ Use this component when you only need to select a date.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ Use this component when you need to select both date and time.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -91,7 +91,7 @@ Use this component when you only need to select time.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { TimePicker } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -122,7 +122,7 @@ Use this to display an inline calendar.
 
 ```tsx
 import { useState } from "react";
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());

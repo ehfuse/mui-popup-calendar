@@ -27,7 +27,7 @@
 A Popover-based date picker component.
 
 ```tsx
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -63,7 +63,7 @@ import { DatePicker } from "@ehfuse/mui-popup-calendar";
 A Popover-based date and time picker component.
 
 ```tsx
-import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -105,7 +105,7 @@ import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 An inline calendar component.
 
 ```tsx
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -146,7 +146,7 @@ import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
 A Popover-based time picker component.
 
 ```tsx
-import { TimePicker } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -175,7 +175,7 @@ import { TimePicker } from "@ehfuse/mui-popup-calendar";
 An inline time selector component.
 
 ```tsx
-import { TimeSelector } from "@ehfuse/mui-popup-calendar";
+import { TimeSelector } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -232,7 +232,7 @@ interface TimeValue {
 Interface representing week information. Used in `onWeekChange` callback.
 
 ```tsx
-import { WeekInfo, getWeekInfo } from "@ehfuse/mui-popup-calendar";
+import { WeekInfo, getWeekInfo } from "@ehfuse/mui-datetime-picker";
 
 interface WeekInfo {
     weekOfMonth: number; // Week number of the month (1-6)
@@ -251,7 +251,7 @@ const weekInfo = getWeekInfo(new Date()); // Returns WeekInfo
 Interface for calendar style customization.
 
 ```tsx
-import type { CalendarStyles } from "@ehfuse/mui-popup-calendar";
+import type { CalendarStyles } from "@ehfuse/mui-datetime-picker";
 
 interface CalendarStyles {
     selectedColor?: string; // Selected date background color (default: 'primary.main')
@@ -294,7 +294,7 @@ type LocaleProp = CalendarLocale | LocaleKey;
 <PopupCalendar locale="ja" />
 
 // Locale object
-import { enLocale } from "@ehfuse/mui-popup-calendar";
+import { enLocale } from "@ehfuse/mui-datetime-picker";
 <PopupCalendar locale={enLocale} />
 ```
 
@@ -369,7 +369,7 @@ This library provides built-in locale support for 19 languages.
 #### Using Locale Object
 
 ```tsx
-import { PopupCalendar, enLocale, jaLocale } from "@ehfuse/mui-popup-calendar";
+import { PopupCalendar, enLocale, jaLocale } from "@ehfuse/mui-datetime-picker";
 
 <PopupCalendar locale={enLocale} ... />
 <PopupCalendar locale={jaLocale} ... />

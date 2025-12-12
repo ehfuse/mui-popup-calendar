@@ -1,4 +1,4 @@
-# @ehfuse/mui-popup-calendar
+# @ehfuse/mui-datetime-picker
 
 MUI 기반의 팝업 캘린더/시간 선택 컴포넌트 라이브러리
 MUI-based popup calendar and time picker component library
@@ -6,27 +6,27 @@ MUI-based popup calendar and time picker component library
 ## 설치 / Installation
 
 ```bash
-npm install @ehfuse/mui-popup-calendar
+npm install @ehfuse/mui-datetime-picker
 ```
 
 ## 컴포넌트 / Components
 
-### PopupCalendar
+### DatePicker
 
-Popover 기반의 통합 날짜/시간 선택 컴포넌트
-Popover-based integrated date/time picker component
+Popover 기반의 날짜 선택 컴포넌트
+Popover-based date picker component
 
 ```tsx
-function PopupCalendar(props: PopupCalendarProps): JSX.Element;
+function DatePicker(props: DatePickerProps): JSX.Element;
 ```
 
-### SimpleCalendar
+### DateTimePicker
 
-인라인 캘린더 컴포넌트
-Inline calendar component
+Popover 기반의 날짜/시간 선택 컴포넌트
+Popover-based date and time picker component
 
 ```tsx
-function SimpleCalendar(props: SimpleCalendarProps): JSX.Element;
+function DateTimePicker(props: DateTimePickerProps): JSX.Element;
 ```
 
 ### TimePicker
@@ -36,6 +36,15 @@ Popover-based time picker component
 
 ```tsx
 function TimePicker(props: TimePickerProps): JSX.Element;
+```
+
+### SimpleCalendar
+
+인라인 캘린더 컴포넌트
+Inline calendar component
+
+```tsx
+function SimpleCalendar(props: SimpleCalendarProps): JSX.Element;
 ```
 
 ### TimeSelector
@@ -50,7 +59,7 @@ function TimeSelector(props: TimeSelectorProps): JSX.Element;
 ## 타입 / Types
 
 ```tsx
-type PopupCalendarMode = "date" | "time" | "datetime";
+type DateTimePickerMode = "date" | "time" | "datetime";
 type TimeFormat = "HH:mm" | "HH:mm:ss" | "hh:mm" | "hh:mm:ss";
 
 interface TimeValue {

@@ -9,7 +9,7 @@ import {
     Switch,
     Divider,
 } from "@mui/material";
-import { TimePicker, TimeSelector } from "@ehfuse/mui-popup-calendar";
+import { TimePicker, TimeSelector } from "@ehfuse/mui-datetime-picker";
 
 export default function TimePickerPage() {
     const [open, setOpen] = useState(false);

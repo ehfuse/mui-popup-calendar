@@ -4,7 +4,7 @@ export default function HomePage() {
     return (
         <Box>
             <Typography variant="h4" gutterBottom>
-                @ehfuse/mui-popup-calendar
+                @ehfuse/mui-datetime-picker
             </Typography>
             <Typography variant="body1" paragraph>
                 MUI 기반의 팝업 캘린더 및 시간 선택 컴포넌트 라이브러리입니다.
@@ -46,7 +46,7 @@ export default function HomePage() {
                         overflow: "auto",
                     }}
                 >
-                    npm install @ehfuse/mui-popup-calendar
+                    npm install @ehfuse/mui-datetime-picker
                 </Box>
             </Paper>
 
@@ -64,7 +64,7 @@ export default function HomePage() {
                         fontSize: "0.875rem",
                     }}
                 >
-                    {`import { PopupCalendar } from '@ehfuse/mui-popup-calendar'
+                    {`import { PopupCalendar } from '@ehfuse/mui-datetime-picker'
 
 function MyComponent() {
   const [open, setOpen] = useState(false)

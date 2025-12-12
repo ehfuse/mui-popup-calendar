@@ -28,7 +28,7 @@ function App() {
             >
                 <Toolbar>
                     <Typography variant="h6" noWrap component="div">
-                        @ehfuse/mui-popup-calendar Examples
+                        @ehfuse/mui-datetime-picker Examples
                     </Typography>
                 </Toolbar>
             </AppBar>

@@ -5,7 +5,7 @@ MUI 기반의 팝업 캘린더/시간 선택 컴포넌트 라이브러리입니�
 ## 설치
 
 ```bash
-npm install @ehfuse/mui-popup-calendar
+npm install @ehfuse/mui-datetime-picker
 ```
 
 ### Peer Dependencies
@@ -25,7 +25,7 @@ npm install @mui/material @emotion/react @emotion/styled
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ function App() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -91,7 +91,7 @@ function App() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { TimePicker } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -122,7 +122,7 @@ function App() {
 
 ```tsx
 import { useState } from "react";
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 function App() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());

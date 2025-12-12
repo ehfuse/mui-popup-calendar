@@ -7,7 +7,7 @@ import {
     FormControlLabel,
     Switch,
 } from "@mui/material";
-import { DatePicker, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 export default function DatePickerPage() {
     const [open, setOpen] = useState(false);

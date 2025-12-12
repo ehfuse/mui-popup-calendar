@@ -32,7 +32,7 @@ The most basic date selection example.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function DatePickerExample() {
     const [open, setOpen] = useState(false);
@@ -69,8 +69,8 @@ Example for selecting time only.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { TimePicker } from "@ehfuse/mui-popup-calendar";
-import type { TimeValue } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-datetime-picker";
+import type { TimeValue } from "@ehfuse/mui-datetime-picker";
 
 function TimePickerExample() {
     const [open, setOpen] = useState(false);
@@ -111,8 +111,8 @@ Example for selecting both date and time.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
-import type { TimeValue } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-datetime-picker";
+import type { TimeValue } from "@ehfuse/mui-datetime-picker";
 
 function DateTimePickerExample() {
     const [open, setOpen] = useState(false);
@@ -165,7 +165,7 @@ Example for selecting year and month only, without date.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function MonthPickerExample() {
     const [open, setOpen] = useState(false);
@@ -208,7 +208,7 @@ Example for selecting year only.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function YearPickerExample() {
     const [open, setOpen] = useState(false);
@@ -249,8 +249,8 @@ Receive a callback when the selected date's week changes.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
-import type { WeekInfo } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
+import type { WeekInfo } from "@ehfuse/mui-datetime-picker";
 
 function WeekChangeExample() {
     const [open, setOpen] = useState(false);
@@ -463,7 +463,7 @@ Display calendar directly without PopupCalendar.
 ```tsx
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 function InlineCalendarExample() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -497,8 +497,8 @@ Inline calendar with time selection included.
 ```tsx
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
-import type { TimeValue } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
+import type { TimeValue } from "@ehfuse/mui-datetime-picker";
 
 function InlineDateTimeExample() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -553,7 +553,7 @@ Display the calendar in various languages.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 
 function SimpleLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -587,7 +587,7 @@ function SimpleLocaleExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button, Stack } from "@mui/material";
-import { DatePicker, LocaleKey } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, LocaleKey } from "@ehfuse/mui-datetime-picker";
 
 function DynamicLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -645,7 +645,7 @@ function DynamicLocaleExample() {
 #### Creating Custom Locale
 
 ```tsx
-import type { CalendarLocale } from "@ehfuse/mui-popup-calendar";
+import type { CalendarLocale } from "@ehfuse/mui-datetime-picker";
 
 // Fully custom locale
 const myLocale: CalendarLocale = {

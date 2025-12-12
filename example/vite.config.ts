@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            "@ehfuse/mui-popup-calendar": path.resolve(__dirname, "../src"),
+            "@ehfuse/mui-datetime-picker": path.resolve(__dirname, "../src"),
         },
         dedupe: ["react", "react-dom"],
     },

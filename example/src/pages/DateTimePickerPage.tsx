@@ -13,8 +13,8 @@ import {
     Divider,
     TextField,
 } from "@mui/material";
-import { DateTimePicker, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
-import type { TimeFormat } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker, SimpleCalendar } from "@ehfuse/mui-datetime-picker";
+import type { TimeFormat } from "@ehfuse/mui-datetime-picker";
 
 export default function DateTimePickerPage() {
     const [open, setOpen] = useState(false);
@@ -274,7 +274,7 @@ export default function DateTimePickerPage() {
                         fontSize: "0.875rem",
                     }}
                 >
-                    {`import { DateTimePicker } from '@ehfuse/mui-popup-calendar'
+                    {`import { DateTimePicker } from '@ehfuse/mui-datetime-picker'
 
 <DateTimePicker
   open={open}

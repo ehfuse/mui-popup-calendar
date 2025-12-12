@@ -27,7 +27,7 @@
 Popover 기반의 날짜 선택 컴포넌트입니다.
 
 ```tsx
-import { DatePicker } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -63,7 +63,7 @@ import { DatePicker } from "@ehfuse/mui-popup-calendar";
 Popover 기반의 날짜 + 시간 선택 컴포넌트입니다.
 
 ```tsx
-import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -105,7 +105,7 @@ import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 인라인 캘린더 컴포넌트입니다.
 
 ```tsx
-import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -146,7 +146,7 @@ import { SimpleCalendar } from "@ehfuse/mui-popup-calendar";
 Popover 기반의 시간 선택 컴포넌트입니다.
 
 ```tsx
-import { TimePicker } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -175,7 +175,7 @@ import { TimePicker } from "@ehfuse/mui-popup-calendar";
 인라인 시간 선택 컴포넌트입니다.
 
 ```tsx
-import { TimeSelector } from "@ehfuse/mui-popup-calendar";
+import { TimeSelector } from "@ehfuse/mui-datetime-picker";
 ```
 
 #### Props
@@ -232,7 +232,7 @@ interface TimeValue {
 주 정보를 나타내는 인터페이스입니다. `onWeekChange` 콜백에서 사용됩니다.
 
 ```tsx
-import { WeekInfo, getWeekInfo } from "@ehfuse/mui-popup-calendar";
+import { WeekInfo, getWeekInfo } from "@ehfuse/mui-datetime-picker";
 
 interface WeekInfo {
     weekOfMonth: number; // 해당 월의 몇 번째 주인지 (1-6)
@@ -251,7 +251,7 @@ const weekInfo = getWeekInfo(new Date()); // WeekInfo 반환
 캘린더 스타일 커스터마이징을 위한 인터페이스입니다.
 
 ```tsx
-import type { CalendarStyles } from "@ehfuse/mui-popup-calendar";
+import type { CalendarStyles } from "@ehfuse/mui-datetime-picker";
 
 interface CalendarStyles {
     selectedColor?: string; // 선택된 날짜 배경 색상 (기본값: 'primary.main')
@@ -294,7 +294,7 @@ type LocaleProp = CalendarLocale | LocaleKey;
 <PopupCalendar locale="ja" />
 
 // 로케일 객체로
-import { enLocale } from "@ehfuse/mui-popup-calendar";
+import { enLocale } from "@ehfuse/mui-datetime-picker";
 <PopupCalendar locale={enLocale} />
 ```
 
@@ -345,32 +345,32 @@ type CalendarTexts = Partial<CalendarLocale>;
 다국어 지원을 위한 내장 로케일입니다.
 
 ```tsx
-import { koLocale, enLocale, jaLocale, ... } from "@ehfuse/mui-popup-calendar";
+import { koLocale, enLocale, jaLocale, ... } from "@ehfuse/mui-datetime-picker";
 ```
 
 ### 지원 로케일
 
 | 로케일       | 언어          | import                                                    |
 | ------------ | ------------- | --------------------------------------------------------- |
-| `koLocale`   | 한국어        | `import { koLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `enLocale`   | 영어          | `import { enLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `jaLocale`   | 일본어        | `import { jaLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `zhCNLocale` | 중국어 (간체) | `import { zhCNLocale } from "@ehfuse/mui-popup-calendar"` |
-| `zhTWLocale` | 중국어 (번체) | `import { zhTWLocale } from "@ehfuse/mui-popup-calendar"` |
-| `esLocale`   | 스페인어      | `import { esLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `frLocale`   | 프랑스어      | `import { frLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `deLocale`   | 독일어        | `import { deLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `ptLocale`   | 포르투갈어    | `import { ptLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `ruLocale`   | 러시아어      | `import { ruLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `itLocale`   | 이탈리아어    | `import { itLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `arLocale`   | 아랍어        | `import { arLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `hiLocale`   | 힌디어        | `import { hiLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `viLocale`   | 베트남어      | `import { viLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `thLocale`   | 태국어        | `import { thLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `idLocale`   | 인도네시아어  | `import { idLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `nlLocale`   | 네덜란드어    | `import { nlLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `plLocale`   | 폴란드어      | `import { plLocale } from "@ehfuse/mui-popup-calendar"`   |
-| `trLocale`   | 터키어        | `import { trLocale } from "@ehfuse/mui-popup-calendar"`   |
+| `koLocale`   | 한국어        | `import { koLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `enLocale`   | 영어          | `import { enLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `jaLocale`   | 일본어        | `import { jaLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `zhCNLocale` | 중국어 (간체) | `import { zhCNLocale } from "@ehfuse/mui-datetime-picker"` |
+| `zhTWLocale` | 중국어 (번체) | `import { zhTWLocale } from "@ehfuse/mui-datetime-picker"` |
+| `esLocale`   | 스페인어      | `import { esLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `frLocale`   | 프랑스어      | `import { frLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `deLocale`   | 독일어        | `import { deLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `ptLocale`   | 포르투갈어    | `import { ptLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `ruLocale`   | 러시아어      | `import { ruLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `itLocale`   | 이탈리아어    | `import { itLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `arLocale`   | 아랍어        | `import { arLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `hiLocale`   | 힌디어        | `import { hiLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `viLocale`   | 베트남어      | `import { viLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `thLocale`   | 태국어        | `import { thLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `idLocale`   | 인도네시아어  | `import { idLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `nlLocale`   | 네덜란드어    | `import { nlLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `plLocale`   | 폴란드어      | `import { plLocale } from "@ehfuse/mui-datetime-picker"`   |
+| `trLocale`   | 터키어        | `import { trLocale } from "@ehfuse/mui-datetime-picker"`   |
 
 ### 사용 예시
 
@@ -386,7 +386,7 @@ import { koLocale, enLocale, jaLocale, ... } from "@ehfuse/mui-popup-calendar";
 #### 로케일 객체 사용
 
 ```tsx
-import { PopupCalendar, enLocale } from "@ehfuse/mui-popup-calendar";
+import { PopupCalendar, enLocale } from "@ehfuse/mui-datetime-picker";
 
 <PopupCalendar locale={enLocale} ... />
 ```
