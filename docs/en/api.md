@@ -3,12 +3,12 @@
 ## Table of Contents
 
 -   [Components](#components)
-    -   [PopupCalendar](#popupcalendar)
-    -   [SimpleCalendar](#simplecalendar)
+    -   [DatePicker](#datepicker)
+    -   [DateTimePicker](#datetimepicker)
     -   [TimePicker](#timepicker)
+    -   [SimpleCalendar](#simplecalendar)
     -   [TimeSelector](#timeselector)
 -   [Types](#types)
-    -   [PopupCalendarMode](#popupcalendarmode)
     -   [TimeFormat](#timeformat)
     -   [TimeValue](#timevalue)
     -   [WeekInfo](#weekinfo)
@@ -22,12 +22,48 @@
 
 ## Components
 
-### PopupCalendar
+### DatePicker
 
-A Popover-based integrated date/time picker component.
+A Popover-based date picker component.
 
 ```tsx
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
+```
+
+#### Props
+
+| Prop            | Type                                                            | Default | Required | Description                                       |
+| --------------- | --------------------------------------------------------------- | ------- | -------- | ------------------------------------------------- |
+| `open`          | `boolean`                                                       | -       | ✓        | Popup open state                                  |
+| `onClose`       | `() => void`                                                    | -       | ✓        | Close callback                                    |
+| `anchorEl`      | `AnchorElType`                                                  | -       | -        | Popover anchor element (ref object also accepted) |
+| `selectedDate`  | `Date \| null`                                                  | -       | -        | Selected date                                     |
+| `onDateChange`  | `(date: Date) => void`                                          | -       | -        | Date change callback                              |
+| `minDate`       | `Date`                                                          | -       | -        | Minimum selectable date                           |
+| `maxDate`       | `Date`                                                          | -       | -        | Maximum selectable date                           |
+| `holidays`      | `Date[]`                                                        | `[]`    | -        | Holiday array                                     |
+| `styles`        | [`CalendarStyles`](#calendarstyles)                             | -       | -        | Style options                                     |
+| `showToday`     | `boolean`                                                       | `true`  | -        | Show today button                                 |
+| `showFooter`    | `boolean`                                                       | `true`  | -        | Show footer                                       |
+| `autoApply`     | `boolean`                                                       | `false` | -        | Apply selection immediately                       |
+| `locale`        | [`LocaleProp`](#localeprop)                                     | `"ko"`  | -        | Locale (string or object)                         |
+| `texts`         | [`CalendarTexts`](#calendartexts)                               | -       | -        | Partial text overrides                            |
+| `monthOnly`     | `boolean`                                                       | `false` | -        | Month-only selection mode                         |
+| `yearOnly`      | `boolean`                                                       | `false` | -        | Year-only selection mode                          |
+| `onMonthChange` | `(year: number, month: number) => void`                         | -       | -        | Month change callback (on confirm)                |
+| `onYearChange`  | `(year: number) => void`                                        | -       | -        | Year change callback (on confirm)                 |
+| `onWeekChange`  | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -       | -        | Week change callback (on confirm)                 |
+
+> **Note**: DatePicker extends MUI `PopoverProps`. You can use all Popover props such as `anchorOrigin`, `transformOrigin`, `slotProps`, etc.
+
+---
+
+### DateTimePicker
+
+A Popover-based date and time picker component.
+
+```tsx
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 ```
 
 #### Props
@@ -37,7 +73,6 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 | `open`             | `boolean`                                                       | -         | ✓        | Popup open state                                  |
 | `onClose`          | `() => void`                                                    | -         | ✓        | Close callback                                    |
 | `anchorEl`         | `AnchorElType`                                                  | -         | -        | Popover anchor element (ref object also accepted) |
-| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                       | `"date"`  | -        | Mode (date, time, datetime)                       |
 | `selectedDate`     | `Date \| null`                                                  | -         | -        | Selected date                                     |
 | `onDateChange`     | `(date: Date) => void`                                          | -         | -        | Date change callback                              |
 | `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -        | Time value                                        |
@@ -57,13 +92,11 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 | `hideDisabledTime` | `boolean`                                                       | `false`   | -        | Hide disabled time options                        |
 | `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -        | Locale (string or object)                         |
 | `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -        | Partial text overrides                            |
-| `monthOnly`        | `boolean`                                                       | `false`   | -        | Month-only selection mode                         |
-| `yearOnly`         | `boolean`                                                       | `false`   | -        | Year-only selection mode                          |
 | `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -        | Month change callback (on confirm)                |
 | `onYearChange`     | `(year: number) => void`                                        | -         | -        | Year change callback (on confirm)                 |
 | `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -        | Week change callback (on confirm)                 |
 
-> **Note**: PopupCalendar extends MUI `PopoverProps`. You can use all Popover props such as `anchorOrigin`, `transformOrigin`, `slotProps`, etc.
+> **Note**: DateTimePicker extends MUI `PopoverProps`. You can use all Popover props such as `anchorOrigin`, `transformOrigin`, `slotProps`, etc.
 
 ---
 
@@ -162,22 +195,6 @@ import { TimeSelector } from "@ehfuse/mui-popup-calendar";
 ---
 
 ## Types
-
-### PopupCalendarMode
-
-Defines the mode of the popup calendar.
-
-```tsx
-type PopupCalendarMode = "date" | "time" | "datetime";
-```
-
-| Value        | Description               |
-| ------------ | ------------------------- |
-| `"date"`     | Select date only          |
-| `"time"`     | Select time only          |
-| `"datetime"` | Select both date and time |
-
----
 
 ### TimeFormat
 

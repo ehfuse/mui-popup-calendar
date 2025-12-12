@@ -4,7 +4,6 @@ import {
     Typography,
     Paper,
     Button,
-    TextField,
     FormControl,
     InputLabel,
     Select,
@@ -12,15 +11,15 @@ import {
     FormControlLabel,
     Switch,
     Divider,
+    TextField,
 } from "@mui/material";
-import { PopupCalendar, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
-import type { PopupCalendarMode, TimeFormat } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import type { TimeFormat } from "@ehfuse/mui-popup-calendar";
 
-export default function PopupCalendarPage() {
+export default function DateTimePickerPage() {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLButtonElement>(null);
 
-    const [mode, setMode] = useState<PopupCalendarMode>("datetime");
     const [timeFormat, setTimeFormat] = useState<TimeFormat>("HH:mm");
     const [showToday, setShowToday] = useState(true);
     const [showFooter, setShowFooter] = useState(true);
@@ -83,24 +82,17 @@ export default function PopupCalendarPage() {
             hasSeconds ? ":" + timeValue.second : ""
         }`;
 
-        switch (mode) {
-            case "date":
-                return datePart;
-            case "time":
-                return timePart;
-            case "datetime":
-                return `${datePart} ${timePart}`;
-        }
+        return `${datePart} ${timePart}`;
     };
 
     return (
         <Box>
             <Typography variant="h4" gutterBottom>
-                PopupCalendar
+                DateTimePicker
             </Typography>
             <Typography variant="body1" paragraph>
-                Popover 기반의 통합 날짜/시간 선택 컴포넌트입니다. mode 속성으로
-                날짜만, 시간만, 또는 둘 다 선택할 수 있습니다.
+                Popover 기반의 날짜 + 시간 선택 컴포넌트입니다. 날짜와 시간을
+                함께 선택할 때 사용합니다.
             </Typography>
 
             <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
@@ -119,11 +111,10 @@ export default function PopupCalendarPage() {
                         {getDisplayText()}
                     </Button>
 
-                    <PopupCalendar
+                    <DateTimePicker
                         open={open}
                         onClose={() => setOpen(false)}
                         anchorEl={anchorRef}
-                        mode={mode}
                         selectedDate={selectedDate}
                         onDateChange={handleDateChange}
                         onYearChange={handleYearChange}
@@ -139,7 +130,7 @@ export default function PopupCalendarPage() {
 
                     <Box
                         sx={{
-                            width: 270,
+                            width: 420,
                             height: 300,
                             border: "1px solid",
                             borderColor: "divider",
@@ -159,7 +150,18 @@ export default function PopupCalendarPage() {
                                     "월"
                                 );
                             }}
-                            showTimePicker={false}
+                            showTimePicker={true}
+                            timeValue={timeValue}
+                            onTimeChange={(h, m, s) => {
+                                setTimeValue({
+                                    hour: String(h).padStart(2, "0"),
+                                    minute: String(m).padStart(2, "0"),
+                                    second: s
+                                        ? String(s).padStart(2, "0")
+                                        : "00",
+                                });
+                            }}
+                            timeFormat={timeFormat}
                             showFooter={false}
                             autoApply={true}
                         />
@@ -173,61 +175,34 @@ export default function PopupCalendarPage() {
                     </Typography>
 
                     <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-                        <InputLabel>Mode</InputLabel>
+                        <InputLabel>Time Format</InputLabel>
                         <Select
-                            value={mode}
-                            label="Mode"
+                            value={timeFormat}
+                            label="Time Format"
                             onChange={(e) =>
-                                setMode(e.target.value as PopupCalendarMode)
+                                setTimeFormat(e.target.value as TimeFormat)
                             }
                         >
-                            <MenuItem value="date">date (날짜만)</MenuItem>
-                            <MenuItem value="time">time (시간만)</MenuItem>
-                            <MenuItem value="datetime">
-                                datetime (날짜+시간)
+                            <MenuItem value="HH:mm">HH:mm (24시간)</MenuItem>
+                            <MenuItem value="HH:mm:ss">
+                                HH:mm:ss (24시간+초)
+                            </MenuItem>
+                            <MenuItem value="hh:mm">hh:mm (12시간)</MenuItem>
+                            <MenuItem value="hh:mm:ss">
+                                hh:mm:ss (12시간+초)
                             </MenuItem>
                         </Select>
                     </FormControl>
 
-                    {mode !== "date" && (
-                        <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-                            <InputLabel>Time Format</InputLabel>
-                            <Select
-                                value={timeFormat}
-                                label="Time Format"
-                                onChange={(e) =>
-                                    setTimeFormat(e.target.value as TimeFormat)
-                                }
-                            >
-                                <MenuItem value="HH:mm">
-                                    HH:mm (24시간)
-                                </MenuItem>
-                                <MenuItem value="HH:mm:ss">
-                                    HH:mm:ss (24시간 + 초)
-                                </MenuItem>
-                                <MenuItem value="hh:mm">
-                                    hh:mm (12시간)
-                                </MenuItem>
-                                <MenuItem value="hh:mm:ss">
-                                    hh:mm:ss (12시간 + 초)
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    )}
-
-                    {mode !== "time" && (
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={showToday}
-                                    onChange={(e) =>
-                                        setShowToday(e.target.checked)
-                                    }
-                                />
-                            }
-                            label="오늘 버튼 표시"
-                        />
-                    )}
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={showToday}
+                                onChange={(e) => setShowToday(e.target.checked)}
+                            />
+                        }
+                        label="오늘 버튼 표시 (showToday)"
+                    />
 
                     <FormControlLabel
                         control={
@@ -257,34 +232,30 @@ export default function PopupCalendarPage() {
                         선택된 값
                     </Typography>
 
-                    {mode !== "time" && (
-                        <TextField
-                            label="날짜"
-                            value={
-                                selectedDate
-                                    ? selectedDate.toLocaleDateString("ko-KR")
-                                    : ""
-                            }
-                            size="small"
-                            fullWidth
-                            InputProps={{ readOnly: true }}
-                            sx={{ mb: 1 }}
-                        />
-                    )}
+                    <TextField
+                        label="날짜"
+                        value={
+                            selectedDate
+                                ? selectedDate.toLocaleDateString("ko-KR")
+                                : ""
+                        }
+                        size="small"
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{ mb: 1 }}
+                    />
 
-                    {mode !== "date" && (
-                        <TextField
-                            label="시간"
-                            value={`${timeValue.hour}:${timeValue.minute}${
-                                timeFormat.includes("ss")
-                                    ? ":" + timeValue.second
-                                    : ""
-                            }`}
-                            size="small"
-                            fullWidth
-                            InputProps={{ readOnly: true }}
-                        />
-                    )}
+                    <TextField
+                        label="시간"
+                        value={`${timeValue.hour}:${timeValue.minute}${
+                            timeFormat.includes("ss")
+                                ? ":" + timeValue.second
+                                : ""
+                        }`}
+                        size="small"
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                    />
                 </Paper>
             </Box>
 
@@ -303,13 +274,12 @@ export default function PopupCalendarPage() {
                         fontSize: "0.875rem",
                     }}
                 >
-                    {`import { PopupCalendar } from '@ehfuse/mui-popup-calendar'
+                    {`import { DateTimePicker } from '@ehfuse/mui-popup-calendar'
 
-<PopupCalendar
+<DateTimePicker
   open={open}
   onClose={() => setOpen(false)}
   anchorEl={anchorRef.current}
-  mode="${mode}"
   selectedDate={selectedDate}
   onDateChange={handleDateChange}
   timeValue={timeValue}

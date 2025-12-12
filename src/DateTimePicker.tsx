@@ -1,6 +1,6 @@
 /**
- * PopupCalendar.tsx
- * Popover 기반 팝업 캘린더/시간 선택 컴포넌트
+ * DateTimePicker.tsx
+ * Popover 기반 날짜 + 시간 선택 컴포넌트
  *
  * @license MIT
  * @copyright 2025 김영진 (Kim Young Jin)
@@ -10,8 +10,7 @@
 import { useState, useEffect } from "react";
 import { Popover, PopoverProps } from "@mui/material";
 import { SimpleCalendar } from "./SimpleCalendar";
-import { TimePicker } from "./TimePicker";
-import { PopupCalendarProps, TimeValue, AnchorElType } from "./types";
+import { DateTimePickerProps, TimeValue, AnchorElType } from "./types";
 import { defaultLocale } from "./locale";
 
 // anchorEl이 RefObject인지 확인하고 실제 엘리먼트 반환
@@ -27,18 +26,15 @@ function resolveAnchorEl(
 }
 
 /**
- * PopupCalendar - Popover 기반 팝업 캘린더/시간 선택 컴포넌트
+ * DateTimePicker - Popover 기반 날짜 + 시간 선택 컴포넌트
  *
- * mode에 따라:
- * - "date": 날짜 선택만
- * - "time": 시간 선택만
- * - "datetime": 날짜 + 시간 선택
+ * 날짜와 시간을 함께 선택할 때 사용합니다.
+ * 날짜만 선택하려면 DatePicker를, 시간만 선택하려면 TimePicker를 사용하세요.
  */
-export function PopupCalendar({
+export function DateTimePicker({
     open,
     onClose,
     anchorEl,
-    mode = "date",
     selectedDate,
     onDateChange,
     timeValue,
@@ -62,16 +58,12 @@ export function PopupCalendar({
     // 로케일 관련
     locale = defaultLocale,
     texts,
-    // 년월만 선택
-    monthOnly = false,
-    // 년도만 선택
-    yearOnly = false,
     // 년월/년도 변경 콜백
     onMonthChange,
     onYearChange,
     onWeekChange,
     ...popoverProps
-}: PopupCalendarProps) {
+}: DateTimePickerProps) {
     const hasSeconds = timeFormat === "HH:mm:ss" || timeFormat === "hh:mm:ss";
 
     // anchorEl 해석
@@ -148,47 +140,9 @@ export function PopupCalendar({
         onTimeChange?.(newTime.hour, newTime.minute, newTime.second);
     };
 
-    // 팝오버 크기 결정
-    const getPopoverSize = () => {
-        switch (mode) {
-            case "time":
-                return { width: hasSeconds ? 165 : 110, height: 336 };
-            case "datetime":
-                return {
-                    width: 300 + (hasSeconds ? 165 : 110),
-                    height: 380,
-                };
-            case "date":
-            default:
-                return { width: 300, height: 380 };
-        }
-    };
-
-    const { width, height } = getPopoverSize();
-
-    // 시간만 선택하는 모드
-    if (mode === "time") {
-        return (
-            <TimePicker
-                anchorEl={anchorEl}
-                open={open}
-                onClose={onClose}
-                value={tempTime}
-                onChange={(h, m, s) => {
-                    onTimeChange?.(h, m, s);
-                }}
-                format={timeFormat}
-                minTime={minTime}
-                maxTime={maxTime}
-                minuteStep={minuteStep}
-                secondStep={secondStep}
-                hideDisabledTime={hideDisabledTime}
-                autoApply={autoApply}
-                locale={locale}
-                texts={texts}
-            />
-        );
-    }
+    // 팝오버 크기 결정 (datetime 전용)
+    const width = 300 + (hasSeconds ? 165 : 110);
+    const height = 380;
 
     return (
         <Popover
@@ -225,7 +179,7 @@ export function PopupCalendar({
                 showToday={showToday}
                 showFooter={showFooter}
                 autoApply={autoApply}
-                showTimePicker={mode === "datetime"}
+                showTimePicker={true}
                 timeValue={tempTime}
                 onTimeChange={handleCalendarTimeChange}
                 timeFormat={timeFormat}
@@ -236,8 +190,6 @@ export function PopupCalendar({
                 hideDisabledTime={hideDisabledTime}
                 locale={locale}
                 texts={texts}
-                monthOnly={monthOnly}
-                yearOnly={yearOnly}
                 onMonthChange={onMonthChange}
                 onYearChange={onYearChange}
                 onWeekChange={onWeekChange}

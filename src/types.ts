@@ -27,8 +27,8 @@ export interface TimeValue {
     second?: string; // 초 (00-59, 선택적)
 }
 
-/** 팝업 캘린더 모드 타입 */
-export type PopupCalendarMode = "date" | "time" | "datetime";
+/** @deprecated DateTimePickerMode는 더 이상 사용되지 않습니다. DatePicker 또는 DateTimePicker를 직접 사용하세요. */
+export type DateTimePickerMode = "date" | "time" | "datetime";
 
 // locale 관련 타입은 locale.ts에서 re-export
 export type {
@@ -138,12 +138,38 @@ export interface TimeSelectorProps {
     hideDisabledTime?: boolean; // 선택 불가 시간 숨김 여부 (기본값: false)
 }
 
-/** PopupCalendar 컴포넌트 Props */
-export interface PopupCalendarProps
+/** DatePicker 컴포넌트 Props (날짜만 선택) */
+export interface DatePickerProps
     extends Omit<PopoverProps, "children" | "onClose" | "anchorEl"> {
     anchorEl?: AnchorElType; // Popover 앵커 엘리먼트 (ref 객체도 가능)
     onClose: () => void; // 닫기 콜백
-    mode?: PopupCalendarMode; // 모드 (date, time, datetime)
+    selectedDate?: Date | null; // 선택된 날짜
+    onDateChange?: (date: Date) => void; // 날짜 변경 콜백
+    onMonthChange?: (year: number, month: number) => void; // 년월 변경 콜백 (네비게이션 시)
+    onYearChange?: (year: number) => void; // 년도 변경 콜백 (네비게이션 시)
+    onWeekChange?: (
+        weekOfMonth: number,
+        startDate: Date,
+        endDate: Date
+    ) => void; // 주 변경 콜백
+    minDate?: Date; // 선택 가능한 최소 날짜
+    maxDate?: Date; // 선택 가능한 최대 날짜
+    holidays?: Date[]; // 공휴일 배열
+    styles?: CalendarStyles; // 스타일 옵션
+    showToday?: boolean; // 오늘 버튼 표시 여부
+    showFooter?: boolean; // 푸터 표시 여부 (기본값: true)
+    autoApply?: boolean; // 선택 즉시 적용 여부 (기본값: false)
+    locale?: LocaleProp; // 로케일 (기본값: 'ko')
+    texts?: CalendarTexts; // 텍스트 부분 커스터마이징
+    monthOnly?: boolean; // 년월만 선택 (기본값: false)
+    yearOnly?: boolean; // 년도만 선택 (기본값: false)
+}
+
+/** DateTimePicker 컴포넌트 Props (날짜 + 시간 선택) */
+export interface DateTimePickerProps
+    extends Omit<PopoverProps, "children" | "onClose" | "anchorEl"> {
+    anchorEl?: AnchorElType; // Popover 앵커 엘리먼트 (ref 객체도 가능)
+    onClose: () => void; // 닫기 콜백
     selectedDate?: Date | null; // 선택된 날짜
     onDateChange?: (date: Date) => void; // 날짜 변경 콜백
     onMonthChange?: (year: number, month: number) => void; // 년월 변경 콜백 (네비게이션 시)
@@ -170,6 +196,4 @@ export interface PopupCalendarProps
     hideDisabledTime?: boolean; // 선택 불가 시간 숨김 여부
     locale?: LocaleProp; // 로케일 (기본값: 'ko')
     texts?: CalendarTexts; // 텍스트 부분 커스터마이징
-    monthOnly?: boolean; // 년월만 선택 (기본값: false)
-    yearOnly?: boolean; // 년도만 선택 (기본값: false)
 }

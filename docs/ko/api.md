@@ -3,12 +3,12 @@
 ## 목차
 
 -   [컴포넌트](#컴포넌트)
-    -   [PopupCalendar](#popupcalendar)
-    -   [SimpleCalendar](#simplecalendar)
+    -   [DatePicker](#datepicker)
+    -   [DateTimePicker](#datetimepicker)
     -   [TimePicker](#timepicker)
+    -   [SimpleCalendar](#simplecalendar)
     -   [TimeSelector](#timeselector)
 -   [타입](#타입)
-    -   [PopupCalendarMode](#popupcalendarmode)
     -   [TimeFormat](#timeformat)
     -   [TimeValue](#timevalue)
     -   [WeekInfo](#weekinfo)
@@ -22,12 +22,48 @@
 
 ## 컴포넌트
 
-### PopupCalendar
+### DatePicker
 
-Popover 기반의 통합 날짜/시간 선택 컴포넌트입니다.
+Popover 기반의 날짜 선택 컴포넌트입니다.
 
 ```tsx
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
+```
+
+#### Props
+
+| Prop            | 타입                                                            | 기본값  | 필수 | 설명                                    |
+| --------------- | --------------------------------------------------------------- | ------- | ---- | --------------------------------------- |
+| `open`          | `boolean`                                                       | -       | ✓    | 팝업 열림 상태                          |
+| `onClose`       | `() => void`                                                    | -       | ✓    | 닫기 콜백                               |
+| `anchorEl`      | `AnchorElType`                                                  | -       | -    | Popover 앵커 엘리먼트 (ref 객체도 가능) |
+| `selectedDate`  | `Date \| null`                                                  | -       | -    | 선택된 날짜                             |
+| `onDateChange`  | `(date: Date) => void`                                          | -       | -    | 날짜 변경 콜백                          |
+| `minDate`       | `Date`                                                          | -       | -    | 선택 가능한 최소 날짜                   |
+| `maxDate`       | `Date`                                                          | -       | -    | 선택 가능한 최대 날짜                   |
+| `holidays`      | `Date[]`                                                        | `[]`    | -    | 공휴일 배열                             |
+| `styles`        | [`CalendarStyles`](#calendarstyles)                             | -       | -    | 스타일 옵션                             |
+| `showToday`     | `boolean`                                                       | `true`  | -    | 오늘 버튼 표시 여부                     |
+| `showFooter`    | `boolean`                                                       | `true`  | -    | 푸터 표시 여부                          |
+| `autoApply`     | `boolean`                                                       | `false` | -    | 선택 즉시 적용 여부                     |
+| `locale`        | [`LocaleProp`](#localeprop)                                     | `"ko"`  | -    | 로케일 (문자열 또는 객체)               |
+| `texts`         | [`CalendarTexts`](#calendartexts)                               | -       | -    | 텍스트 부분 커스터마이징                |
+| `monthOnly`     | `boolean`                                                       | `false` | -    | 년월만 선택 모드                        |
+| `yearOnly`      | `boolean`                                                       | `false` | -    | 년도만 선택 모드                        |
+| `onMonthChange` | `(year: number, month: number) => void`                         | -       | -    | 월 변경 콜백 (확정 시)                  |
+| `onYearChange`  | `(year: number) => void`                                        | -       | -    | 년도 변경 콜백 (확정 시)                |
+| `onWeekChange`  | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -       | -    | 주 변경 콜백 (확정 시)                  |
+
+> **참고**: DatePicker는 MUI `PopoverProps`를 확장합니다. `anchorOrigin`, `transformOrigin`, `slotProps` 등 Popover의 모든 Props를 사용할 수 있습니다.
+
+---
+
+### DateTimePicker
+
+Popover 기반의 날짜 + 시간 선택 컴포넌트입니다.
+
+```tsx
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 ```
 
 #### Props
@@ -37,7 +73,6 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 | `open`             | `boolean`                                                       | -         | ✓    | 팝업 열림 상태                          |
 | `onClose`          | `() => void`                                                    | -         | ✓    | 닫기 콜백                               |
 | `anchorEl`         | `AnchorElType`                                                  | -         | -    | Popover 앵커 엘리먼트 (ref 객체도 가능) |
-| `mode`             | [`PopupCalendarMode`](#popupcalendarmode)                       | `"date"`  | -    | 모드 (date, time, datetime)             |
 | `selectedDate`     | `Date \| null`                                                  | -         | -    | 선택된 날짜                             |
 | `onDateChange`     | `(date: Date) => void`                                          | -         | -    | 날짜 변경 콜백                          |
 | `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -    | 시간 값                                 |
@@ -57,13 +92,11 @@ import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
 | `hideDisabledTime` | `boolean`                                                       | `false`   | -    | 선택 불가 시간 숨김 여부                |
 | `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -    | 로케일 (문자열 또는 객체)               |
 | `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -    | 텍스트 부분 커스터마이징                |
-| `monthOnly`        | `boolean`                                                       | `false`   | -    | 년월만 선택 모드                        |
-| `yearOnly`         | `boolean`                                                       | `false`   | -    | 년도만 선택 모드                        |
 | `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -    | 월 변경 콜백 (확정 시)                  |
 | `onYearChange`     | `(year: number) => void`                                        | -         | -    | 년도 변경 콜백 (확정 시)                |
 | `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -    | 주 변경 콜백 (확정 시)                  |
 
-> **참고**: PopupCalendar는 MUI `PopoverProps`를 확장합니다. `anchorOrigin`, `transformOrigin`, `slotProps` 등 Popover의 모든 Props를 사용할 수 있습니다.
+> **참고**: DateTimePicker는 MUI `PopoverProps`를 확장합니다. `anchorOrigin`, `transformOrigin`, `slotProps` 등 Popover의 모든 Props를 사용할 수 있습니다.
 
 ---
 
@@ -162,22 +195,6 @@ import { TimeSelector } from "@ehfuse/mui-popup-calendar";
 ---
 
 ## 타입
-
-### PopupCalendarMode
-
-팝업 캘린더의 모드를 정의합니다.
-
-```tsx
-type PopupCalendarMode = "date" | "time" | "datetime";
-```
-
-| 값           | 설명                  |
-| ------------ | --------------------- |
-| `"date"`     | 날짜만 선택           |
-| `"time"`     | 시간만 선택           |
-| `"datetime"` | 날짜와 시간 모두 선택 |
-
----
 
 ### TimeFormat
 

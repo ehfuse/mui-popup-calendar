@@ -13,12 +13,13 @@ export type {
     TimeFormat,
     TimeValue,
     AnchorElType,
-    PopupCalendarMode,
+    DateTimePickerMode,
     CalendarStyles,
     SimpleCalendarProps,
     TimePickerProps,
     TimeSelectorProps,
-    PopupCalendarProps,
+    DatePickerProps,
+    DateTimePickerProps,
     CalendarLocale,
     CalendarTexts,
     LocaleKey,
@@ -59,4 +60,13 @@ export {
 export { SimpleCalendar } from "./SimpleCalendar";
 export { TimePicker } from "./TimePicker";
 export { TimeSelector } from "./TimeSelector";
-export { PopupCalendar } from "./PopupCalendar";
+export { DatePicker } from "./DatePicker";
+export { DateTimePicker } from "./DateTimePicker";
+
+// Backward compatibility aliases (deprecated)
+/** @deprecated Use DatePicker or DateTimePicker instead */
+export { DatePicker as PopupCalendar } from "./DatePicker";
+/** @deprecated DateTimePickerMode는 더 이상 사용되지 않습니다. DatePicker 또는 DateTimePicker를 직접 사용하세요. */
+export type { DateTimePickerMode as PopupCalendarMode } from "./types";
+/** @deprecated Use DatePickerProps instead */
+export type { DatePickerProps as PopupCalendarProps } from "./types";

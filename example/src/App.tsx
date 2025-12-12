@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import SimpleCalendarPage from "./pages/SimpleCalendarPage";
 import TimePickerPage from "./pages/TimePickerPage";
-import PopupCalendarPage from "./pages/PopupCalendarPage";
+import DatePickerPage from "./pages/DatePickerPage";
+import DateTimePickerPage from "./pages/DateTimePickerPage";
 import MonthPickerPage from "./pages/MonthPickerPage";
 import HomePage from "./pages/HomePage";
 
@@ -65,11 +66,16 @@ function App() {
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
+                            <ListItemButton component={Link} to="/date-picker">
+                                <ListItemText primary="DatePicker" />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
                             <ListItemButton
                                 component={Link}
-                                to="/popup-calendar"
+                                to="/datetime-picker"
                             >
-                                <ListItemText primary="PopupCalendar" />
+                                <ListItemText primary="DateTimePicker" />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
@@ -90,9 +96,10 @@ function App() {
                         element={<SimpleCalendarPage />}
                     />
                     <Route path="/time-picker" element={<TimePickerPage />} />
+                    <Route path="/date-picker" element={<DatePickerPage />} />
                     <Route
-                        path="/popup-calendar"
-                        element={<PopupCalendarPage />}
+                        path="/datetime-picker"
+                        element={<DateTimePickerPage />}
                     />
                     <Route path="/month-picker" element={<MonthPickerPage />} />
                 </Routes>

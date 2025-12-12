@@ -3,9 +3,9 @@
 ## Table of Contents
 
 -   [Basic Usage](#basic-usage)
-    -   [Date Selection](#date-selection)
-    -   [Time Selection](#time-selection)
-    -   [Date + Time Selection](#date--time-selection)
+    -   [Date Selection (DatePicker)](#date-selection-datepicker)
+    -   [Time Selection (TimePicker)](#time-selection-timepicker)
+    -   [Date + Time Selection (DateTimePicker)](#date--time-selection-datetimepicker)
     -   [Month Selection](#month-selection)
     -   [Year Selection](#year-selection)
 -   [Change Events](#change-events)
@@ -25,14 +25,14 @@
 
 ## Basic Usage
 
-### Date Selection
+### Date Selection (DatePicker)
 
 The most basic date selection example.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function DatePickerExample() {
     const [open, setOpen] = useState(false);
@@ -48,11 +48,10 @@ function DatePickerExample() {
             >
                 {selectedDate?.toLocaleDateString() ?? "Select Date"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={(date) => setSelectedDate(date)}
             />
@@ -63,14 +62,14 @@ function DatePickerExample() {
 
 ---
 
-### Time Selection
+### Time Selection (TimePicker)
 
 Example for selecting time only.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-popup-calendar";
 import type { TimeValue } from "@ehfuse/mui-popup-calendar";
 
 function TimePickerExample() {
@@ -90,14 +89,13 @@ function TimePickerExample() {
             >
                 {`${timeValue.hour}:${timeValue.minute}`}
             </Button>
-            <PopupCalendar
+            <TimePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="time"
-                timeValue={timeValue}
-                onTimeChange={(hour, minute) => setTimeValue({ hour, minute })}
-                timeFormat="HH:mm"
+                value={timeValue}
+                onChange={(hour, minute) => setTimeValue({ hour, minute })}
+                format="HH:mm"
             />
         </>
     );
@@ -106,14 +104,14 @@ function TimePickerExample() {
 
 ---
 
-### Date + Time Selection
+### Date + Time Selection (DateTimePicker)
 
 Example for selecting both date and time.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 import type { TimeValue } from "@ehfuse/mui-popup-calendar";
 
 function DateTimePickerExample() {
@@ -141,11 +139,10 @@ function DateTimePickerExample() {
             >
                 {displayText}
             </Button>
-            <PopupCalendar
+            <DateTimePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="datetime"
                 selectedDate={selectedDate}
                 onDateChange={(date) => setSelectedDate(date)}
                 timeValue={timeValue}
@@ -168,7 +165,7 @@ Example for selecting year and month only, without date.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function MonthPickerExample() {
     const [open, setOpen] = useState(false);
@@ -190,11 +187,10 @@ function MonthPickerExample() {
             >
                 {`${selectedYear}/${selectedMonth + 1}`}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 monthOnly={true}
                 onMonthChange={handleMonthChange}
             />
@@ -212,7 +208,7 @@ Example for selecting year only.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function YearPickerExample() {
     const [open, setOpen] = useState(false);
@@ -228,11 +224,10 @@ function YearPickerExample() {
             >
                 {selectedYear}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 yearOnly={true}
                 onYearChange={(year) => setSelectedYear(year)}
             />
@@ -254,7 +249,7 @@ Receive a callback when the selected date's week changes.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 import type { WeekInfo } from "@ehfuse/mui-popup-calendar";
 
 function WeekChangeExample() {
@@ -290,11 +285,10 @@ function WeekChangeExample() {
                     {weekInfo.endDate.toLocaleDateString()})
                 </p>
             )}
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 onWeekChange={handleWeekChange}
@@ -311,11 +305,10 @@ function WeekChangeExample() {
 Receive a callback when the selected date's month changes.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     onMonthChange={(year, month) => {
@@ -331,11 +324,10 @@ Receive a callback when the selected date's month changes.
 Receive a callback when the selected date's year changes.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     onYearChange={(year) => {
@@ -353,11 +345,10 @@ Receive a callback when the selected date's year changes.
 Restrict the selectable date range.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     minDate={new Date(2024, 0, 1)} // From January 1, 2024
@@ -372,14 +363,13 @@ Restrict the selectable date range.
 Restrict the selectable time range.
 
 ```tsx
-<PopupCalendar
+<TimePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="time"
-    timeValue={timeValue}
-    onTimeChange={(hour, minute) => setTimeValue({ hour, minute })}
-    timeFormat="HH:mm"
+    value={timeValue}
+    onChange={(hour, minute) => setTimeValue({ hour, minute })}
+    format="HH:mm"
     minTime="09:00" // From 9 AM
     maxTime="18:00" // Until 6 PM
     minuteStep={15} // Select in 15-minute intervals
@@ -400,11 +390,10 @@ const holidays = [
     new Date(2024, 11, 25), // Christmas
 ];
 
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     holidays={holidays}
@@ -417,12 +406,26 @@ const holidays = [
 
 Mode where selection is applied immediately. Values are applied directly without a confirm button.
 
+**DatePicker (date only)**
+
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="datetime"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    autoApply={true} // Closes immediately on date selection
+/>
+```
+
+**DateTimePicker (date + time)**
+
+```tsx
+<DateTimePicker
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     timeValue={timeValue}
@@ -440,11 +443,10 @@ Mode where selection is applied immediately. Values are applied directly without
 Hide the footer (button area).
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     showFooter={false} // Hide footer
@@ -551,7 +553,7 @@ Display the calendar in various languages.
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function SimpleLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -567,11 +569,10 @@ function SimpleLocaleExample() {
             >
                 {selectedDate?.toLocaleDateString() ?? "Select Date"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 locale="en" // Simple string key!
@@ -586,7 +587,7 @@ function SimpleLocaleExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button, Stack } from "@mui/material";
-import { PopupCalendar, LocaleKey } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, LocaleKey } from "@ehfuse/mui-popup-calendar";
 
 function DynamicLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -609,11 +610,10 @@ function DynamicLocaleExample() {
             >
                 {selectedDate?.toLocaleDateString() ?? "Select Date"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 locale={locale}
@@ -627,11 +627,10 @@ function DynamicLocaleExample() {
 
 ```tsx
 // Override only button texts based on English locale
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     locale="en"
@@ -661,7 +660,7 @@ const myLocale: CalendarLocale = {
     close: "Close",
 };
 
-<PopupCalendar
+<DatePicker
     locale={myLocale}
     ...
 />

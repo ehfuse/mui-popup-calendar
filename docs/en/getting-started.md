@@ -13,19 +13,19 @@ npm install @ehfuse/mui-popup-calendar
 The following packages are required:
 
 ```bash
-npm install @mui/material @emotion/react @emotion/styled @ehfuse/overlay-scrollbar
+npm install @mui/material @emotion/react @emotion/styled
 ```
 
 ## Quick Start
 
-### PopupCalendar (Recommended)
+### DatePicker (Date Only)
 
-The most commonly used component. You can select date, time, or both.
+Use this component when you only need to select a date.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -37,11 +37,10 @@ function App() {
             <Button ref={anchorRef} onClick={() => setOpen(true)}>
                 {selectedDate?.toLocaleDateString() ?? "Select Date"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
             />
@@ -50,7 +49,74 @@ function App() {
 }
 ```
 
-### SimpleCalendar
+### DateTimePicker (Date + Time)
+
+Use this component when you need to select both date and time.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+
+function App() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [timeValue, setTimeValue] = useState({ hour: "09", minute: "00" });
+
+    return (
+        <>
+            <Button ref={anchorRef} onClick={() => setOpen(true)}>
+                {selectedDate?.toLocaleDateString() ?? "Select Date/Time"}{" "}
+                {timeValue.hour}:{timeValue.minute}
+            </Button>
+            <DateTimePicker
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+                timeValue={timeValue}
+                onTimeChange={(h, m) => setTimeValue({ hour: h, minute: m })}
+            />
+        </>
+    );
+}
+```
+
+### TimePicker (Time Only)
+
+Use this component when you only need to select time.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { TimePicker } from "@ehfuse/mui-popup-calendar";
+
+function App() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [timeValue, setTimeValue] = useState({ hour: "09", minute: "00" });
+
+    return (
+        <>
+            <Button ref={anchorRef} onClick={() => setOpen(true)}>
+                {timeValue.hour}:{timeValue.minute}
+            </Button>
+            <TimePicker
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                value={timeValue}
+                onChange={(h, m) => setTimeValue({ hour: h, minute: m })}
+                format="HH:mm"
+            />
+        </>
+    );
+}
+```
+
+### SimpleCalendar (Inline Calendar)
 
 Use this to display an inline calendar.
 
@@ -74,26 +140,14 @@ function App() {
 }
 ```
 
-## Mode Description
+## Component Selection Guide
 
-PopupCalendar supports 3 modes:
-
-| Mode       | Description               |
-| ---------- | ------------------------- |
-| `date`     | Select date only          |
-| `time`     | Select time only          |
-| `datetime` | Select both date and time |
-
-```tsx
-// Date only
-<PopupCalendar mode="date" ... />
-
-// Time only
-<PopupCalendar mode="time" ... />
-
-// Date + Time
-<PopupCalendar mode="datetime" ... />
-```
+| Component        | Use Case                  |
+| ---------------- | ------------------------- |
+| `DatePicker`     | Select date only          |
+| `TimePicker`     | Select time only          |
+| `DateTimePicker` | Select both date and time |
+| `SimpleCalendar` | Display inline calendar   |
 
 ## Time Format
 

@@ -3,9 +3,9 @@
 ## 목차
 
 -   [기본 사용법](#기본-사용법)
-    -   [날짜 선택](#날짜-선택)
-    -   [시간 선택](#시간-선택)
-    -   [날짜+시간 선택](#날짜시간-선택)
+    -   [날짜 선택 (DatePicker)](#날짜-선택-datepicker)
+    -   [시간 선택 (TimePicker)](#시간-선택-timepicker)
+    -   [날짜+시간 선택 (DateTimePicker)](#날짜시간-선택-datetimepicker)
     -   [년월 선택](#년월-선택)
     -   [년도 선택](#년도-선택)
 -   [변경 이벤트](#변경-이벤트)
@@ -25,14 +25,14 @@
 
 ## 기본 사용법
 
-### 날짜 선택
+### 날짜 선택 (DatePicker)
 
 가장 기본적인 날짜 선택 예제입니다.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function DatePickerExample() {
     const [open, setOpen] = useState(false);
@@ -48,11 +48,10 @@ function DatePickerExample() {
             >
                 {selectedDate?.toLocaleDateString("ko-KR") ?? "날짜 선택"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={(date) => setSelectedDate(date)}
             />
@@ -63,14 +62,14 @@ function DatePickerExample() {
 
 ---
 
-### 시간 선택
+### 시간 선택 (TimePicker)
 
 시간만 선택하는 예제입니다.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { TimePicker } from "@ehfuse/mui-popup-calendar";
 import type { TimeValue } from "@ehfuse/mui-popup-calendar";
 
 function TimePickerExample() {
@@ -90,14 +89,13 @@ function TimePickerExample() {
             >
                 {`${timeValue.hour}:${timeValue.minute}`}
             </Button>
-            <PopupCalendar
+            <TimePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="time"
-                timeValue={timeValue}
-                onTimeChange={(hour, minute) => setTimeValue({ hour, minute })}
-                timeFormat="HH:mm"
+                value={timeValue}
+                onChange={(hour, minute) => setTimeValue({ hour, minute })}
+                format="HH:mm"
             />
         </>
     );
@@ -106,14 +104,14 @@ function TimePickerExample() {
 
 ---
 
-### 날짜+시간 선택
+### 날짜+시간 선택 (DateTimePicker)
 
 날짜와 시간을 함께 선택하는 예제입니다.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
 import type { TimeValue } from "@ehfuse/mui-popup-calendar";
 
 function DateTimePickerExample() {
@@ -141,11 +139,10 @@ function DateTimePickerExample() {
             >
                 {displayText}
             </Button>
-            <PopupCalendar
+            <DateTimePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="datetime"
                 selectedDate={selectedDate}
                 onDateChange={(date) => setSelectedDate(date)}
                 timeValue={timeValue}
@@ -168,7 +165,7 @@ function DateTimePickerExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function MonthPickerExample() {
     const [open, setOpen] = useState(false);
@@ -190,11 +187,10 @@ function MonthPickerExample() {
             >
                 {`${selectedYear}년 ${selectedMonth + 1}월`}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 monthOnly={true}
                 onMonthChange={handleMonthChange}
             />
@@ -212,7 +208,7 @@ function MonthPickerExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function YearPickerExample() {
     const [open, setOpen] = useState(false);
@@ -228,11 +224,10 @@ function YearPickerExample() {
             >
                 {`${selectedYear}년`}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 yearOnly={true}
                 onYearChange={(year) => setSelectedYear(year)}
             />
@@ -254,7 +249,7 @@ function YearPickerExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 import type { WeekInfo } from "@ehfuse/mui-popup-calendar";
 
 function WeekChangeExample() {
@@ -290,11 +285,10 @@ function WeekChangeExample() {
                     {weekInfo.endDate.toLocaleDateString()})
                 </p>
             )}
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 onWeekChange={handleWeekChange}
@@ -311,11 +305,10 @@ function WeekChangeExample() {
 선택한 날짜의 월이 변경되었을 때 콜백을 받습니다.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     onMonthChange={(year, month) => {
@@ -331,11 +324,10 @@ function WeekChangeExample() {
 선택한 날짜의 년도가 변경되었을 때 콜백을 받습니다.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     onYearChange={(year) => {
@@ -353,11 +345,10 @@ function WeekChangeExample() {
 선택 가능한 날짜 범위를 제한합니다.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     minDate={new Date(2024, 0, 1)} // 2024년 1월 1일부터
@@ -372,14 +363,13 @@ function WeekChangeExample() {
 선택 가능한 시간 범위를 제한합니다.
 
 ```tsx
-<PopupCalendar
+<TimePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="time"
-    timeValue={timeValue}
-    onTimeChange={(hour, minute) => setTimeValue({ hour, minute })}
-    timeFormat="HH:mm"
+    value={timeValue}
+    onChange={(hour, minute) => setTimeValue({ hour, minute })}
+    format="HH:mm"
     minTime="09:00" // 오전 9시부터
     maxTime="18:00" // 오후 6시까지
     minuteStep={15} // 15분 단위로 선택
@@ -404,11 +394,10 @@ const holidays = [
     new Date(2024, 11, 25), // 성탄절
 ];
 
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     holidays={holidays}
@@ -421,12 +410,26 @@ const holidays = [
 
 선택 즉시 적용되는 모드입니다. 확인 버튼 없이 바로 값이 적용됩니다.
 
+**DatePicker (날짜만)**
+
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="datetime"
+    selectedDate={selectedDate}
+    onDateChange={setSelectedDate}
+    autoApply={true} // 날짜 선택 시 즉시 닫힘
+/>
+```
+
+**DateTimePicker (날짜+시간)**
+
+```tsx
+<DateTimePicker
+    open={open}
+    onClose={() => setOpen(false)}
+    anchorEl={anchorRef}
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     timeValue={timeValue}
@@ -444,11 +447,10 @@ const holidays = [
 푸터(버튼 영역)를 숨깁니다.
 
 ```tsx
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     showFooter={false} // 푸터 숨김
@@ -555,7 +557,7 @@ function InlineDateTimeExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function SimpleLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -571,11 +573,10 @@ function SimpleLocaleExample() {
             >
                 {selectedDate?.toLocaleDateString() ?? "날짜 선택"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 locale="en" // 간단하게 문자열로!
@@ -590,7 +591,7 @@ function SimpleLocaleExample() {
 ```tsx
 import { useState, useRef } from "react";
 import { Button, Stack } from "@mui/material";
-import { PopupCalendar, LocaleKey } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, LocaleKey } from "@ehfuse/mui-popup-calendar";
 
 function DynamicLocaleExample() {
     const [open, setOpen] = useState(false);
@@ -613,11 +614,10 @@ function DynamicLocaleExample() {
             >
                 {selectedDate?.toLocaleDateString("ko-KR") ?? "날짜 선택"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
                 locale={locale}
@@ -631,11 +631,10 @@ function DynamicLocaleExample() {
 
 ```tsx
 // 영어 로케일 기반으로 버튼 텍스트만 변경
-<PopupCalendar
+<DatePicker
     open={open}
     onClose={() => setOpen(false)}
     anchorEl={anchorRef}
-    mode="date"
     selectedDate={selectedDate}
     onDateChange={setSelectedDate}
     locale="en"
@@ -665,7 +664,7 @@ const myLocale: CalendarLocale = {
     close: "닫기",
 };
 
-<PopupCalendar
+<DatePicker
     locale={myLocale}
     ...
 />

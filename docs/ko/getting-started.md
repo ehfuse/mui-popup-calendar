@@ -18,14 +18,14 @@ npm install @mui/material @emotion/react @emotion/styled
 
 ## 빠른 시작
 
-### PopupCalendar (권장)
+### DatePicker (날짜만 선택)
 
-가장 많이 사용되는 컴포넌트입니다. 날짜, 시간, 또는 둘 다 선택할 수 있습니다.
+날짜만 선택할 때 사용하는 컴포넌트입니다.
 
 ```tsx
 import { useState, useRef } from "react";
 import { Button } from "@mui/material";
-import { PopupCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker } from "@ehfuse/mui-popup-calendar";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -37,11 +37,10 @@ function App() {
             <Button ref={anchorRef} onClick={() => setOpen(true)}>
                 {selectedDate?.toLocaleDateString() ?? "날짜 선택"}
             </Button>
-            <PopupCalendar
+            <DatePicker
                 open={open}
                 onClose={() => setOpen(false)}
                 anchorEl={anchorRef}
-                mode="date"
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
             />
@@ -50,7 +49,74 @@ function App() {
 }
 ```
 
-### SimpleCalendar
+### DateTimePicker (날짜 + 시간 선택)
+
+날짜와 시간을 함께 선택할 때 사용하는 컴포넌트입니다.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { DateTimePicker } from "@ehfuse/mui-popup-calendar";
+
+function App() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [timeValue, setTimeValue] = useState({ hour: "09", minute: "00" });
+
+    return (
+        <>
+            <Button ref={anchorRef} onClick={() => setOpen(true)}>
+                {selectedDate?.toLocaleDateString() ?? "날짜/시간 선택"}{" "}
+                {timeValue.hour}:{timeValue.minute}
+            </Button>
+            <DateTimePicker
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+                timeValue={timeValue}
+                onTimeChange={(h, m) => setTimeValue({ hour: h, minute: m })}
+            />
+        </>
+    );
+}
+```
+
+### TimePicker (시간만 선택)
+
+시간만 선택할 때 사용하는 컴포넌트입니다.
+
+```tsx
+import { useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { TimePicker } from "@ehfuse/mui-popup-calendar";
+
+function App() {
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const [timeValue, setTimeValue] = useState({ hour: "09", minute: "00" });
+
+    return (
+        <>
+            <Button ref={anchorRef} onClick={() => setOpen(true)}>
+                {timeValue.hour}:{timeValue.minute}
+            </Button>
+            <TimePicker
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={anchorRef}
+                value={timeValue}
+                onChange={(h, m) => setTimeValue({ hour: h, minute: m })}
+                format="HH:mm"
+            />
+        </>
+    );
+}
+```
+
+### SimpleCalendar (인라인 캘린더)
 
 인라인으로 캘린더를 표시할 때 사용합니다.
 
@@ -74,26 +140,14 @@ function App() {
 }
 ```
 
-## 모드 설명
+## 컴포넌트 선택 가이드
 
-PopupCalendar는 3가지 모드를 지원합니다:
-
-| 모드       | 설명                  |
-| ---------- | --------------------- |
-| `date`     | 날짜만 선택           |
-| `time`     | 시간만 선택           |
-| `datetime` | 날짜와 시간 모두 선택 |
-
-```tsx
-// 날짜만 선택
-<PopupCalendar mode="date" ... />
-
-// 시간만 선택
-<PopupCalendar mode="time" ... />
-
-// 날짜+시간 선택
-<PopupCalendar mode="datetime" ... />
-```
+| 컴포넌트         | 용도                  |
+| ---------------- | --------------------- |
+| `DatePicker`     | 날짜만 선택           |
+| `TimePicker`     | 시간만 선택           |
+| `DateTimePicker` | 날짜와 시간 모두 선택 |
+| `SimpleCalendar` | 인라인 캘린더 표시    |
 
 ## 시간 포맷
 

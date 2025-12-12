@@ -8,7 +8,7 @@ import {
     Switch,
     Divider,
 } from "@mui/material";
-import { PopupCalendar, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
+import { DatePicker, SimpleCalendar } from "@ehfuse/mui-popup-calendar";
 
 export default function MonthPickerPage() {
     // 년월 선택 상태
@@ -87,11 +87,10 @@ export default function MonthPickerPage() {
                         {`${selectedYear}년 ${selectedMonth + 1}월`}
                     </Button>
 
-                    <PopupCalendar
+                    <DatePicker
                         open={monthOpen}
                         onClose={() => setMonthOpen(false)}
                         anchorEl={monthAnchorRef}
-                        mode="date"
                         monthOnly={true}
                         selectedDate={new Date(selectedYear, selectedMonth, 1)}
                         onMonthChange={handleMonthChange}
@@ -168,11 +167,10 @@ export default function MonthPickerPage() {
                         {`${selectedYearOnly}년`}
                     </Button>
 
-                    <PopupCalendar
+                    <DatePicker
                         open={yearOpen}
                         onClose={() => setYearOpen(false)}
                         anchorEl={yearAnchorRef}
-                        mode="date"
                         yearOnly={true}
                         selectedDate={new Date(selectedYearOnly, 0, 1)}
                         onYearChange={handleYearChange}
@@ -238,11 +236,10 @@ export default function MonthPickerPage() {
                     }}
                 >
                     {`// 년월 선택
-<PopupCalendar
+<DatePicker
   open={open}
   onClose={() => setOpen(false)}
   anchorEl={anchorRef}
-  mode="date"
   monthOnly={true}
   onMonthChange={(year, month) => {
     setSelectedYear(year);
@@ -251,11 +248,10 @@ export default function MonthPickerPage() {
 />
 
 // 년도만 선택
-<PopupCalendar
+<DatePicker
   open={open}
   onClose={() => setOpen(false)}
   anchorEl={anchorRef}
-  mode="date"
   yearOnly={true}
   onYearChange={(year) => {
     setSelectedYear(year);
