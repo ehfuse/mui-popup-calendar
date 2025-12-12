@@ -31,14 +31,9 @@ export interface TimeValue {
 export type DateTimePickerMode = "date" | "time" | "datetime";
 
 // locale 관련 타입은 locale.ts에서 re-export
-export type {
-    CalendarLocale,
-    CalendarTexts,
-    LocaleKey,
-    LocaleProp,
-} from "./locale";
+export type { CalendarTexts, LocaleKey, LocaleProp } from "./locale";
 
-import type { CalendarLocale, CalendarTexts, LocaleProp } from "./locale";
+import type { CalendarTexts, LocaleProp } from "./locale";
 
 export {
     defaultLocale,

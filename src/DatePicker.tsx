@@ -100,7 +100,7 @@ export function DatePicker({
                         borderRadius: 2,
                         boxShadow: 3,
                         width: 300,
-                        height: 380,
+                        height: showFooter ? 380 : 332,
                         overflow: "hidden",
                         ...(slotProps?.paper as any)?.sx,
                     },

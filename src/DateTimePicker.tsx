@@ -142,7 +142,7 @@ export function DateTimePicker({
 
     // 팝오버 크기 결정 (datetime 전용)
     const width = 300 + (hasSeconds ? 165 : 110);
-    const height = 380;
+    const height = showFooter ? 380 : 332;
 
     return (
         <Popover
