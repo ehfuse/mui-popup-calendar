@@ -110,34 +110,36 @@ import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 
 #### Props
 
-| Prop               | Type                                                            | Default   | Required | Description                        |
-| ------------------ | --------------------------------------------------------------- | --------- | -------- | ---------------------------------- |
-| `selectedDate`     | `Date \| null`                                                  | -         | ✓        | Selected date                      |
-| `onSelect`         | `(date: Date) => void`                                          | -         | ✓        | Date selection callback            |
-| `onClose`          | `() => void`                                                    | -         | ✓        | Close callback                     |
-| `minDate`          | `Date`                                                          | -         | -        | Minimum selectable date            |
-| `maxDate`          | `Date`                                                          | -         | -        | Maximum selectable date            |
-| `holidays`         | `Date[]`                                                        | `[]`      | -        | Holiday array                      |
-| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -        | Style options                      |
-| `showToday`        | `boolean`                                                       | `true`    | -        | Show today button                  |
-| `showFooter`       | `boolean`                                                       | `true`    | -        | Show footer                        |
-| `autoApply`        | `boolean`                                                       | `false`   | -        | Apply selection immediately        |
-| `showTimePicker`   | `boolean`                                                       | `false`   | -        | Show time picker                   |
-| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -        | Time value                         |
-| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void`       | -         | -        | Time change callback               |
-| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -        | Time format                        |
-| `minTime`          | `string`                                                        | -         | -        | Minimum selectable time            |
-| `maxTime`          | `string`                                                        | -         | -        | Maximum selectable time            |
-| `minuteStep`       | `number`                                                        | `1`       | -        | Minute step interval               |
-| `secondStep`       | `number`                                                        | `1`       | -        | Second step interval               |
-| `hideDisabledTime` | `boolean`                                                       | `false`   | -        | Hide disabled time options         |
-| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -        | Locale (string or object)          |
-| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -        | Partial text overrides             |
-| `monthOnly`        | `boolean`                                                       | `false`   | -        | Month-only selection mode          |
-| `yearOnly`         | `boolean`                                                       | `false`   | -        | Year-only selection mode           |
-| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -        | Month change callback (on confirm) |
-| `onYearChange`     | `(year: number) => void`                                        | -         | -        | Year change callback (on confirm)  |
-| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -        | Week change callback (on confirm)  |
+| Prop               | Type                                                            | Default   | Required | Description                       |
+| ------------------ | --------------------------------------------------------------- | --------- | -------- | --------------------------------- |
+| `selectedDate`     | `Date \| null`                                                  | -         | ✓        | Selected date                     |
+| `onSelect`         | `(date: Date) => void`                                          | -         | ✓        | Date selection callback           |
+| `onClose`          | `() => void`                                                    | -         | ✓        | Close callback                    |
+| `minDate`          | `Date`                                                          | -         | -        | Minimum selectable date           |
+| `maxDate`          | `Date`                                                          | -         | -        | Maximum selectable date           |
+| `holidays`         | `Date[]`                                                        | `[]`      | -        | Holiday array                     |
+| `styles`           | [`CalendarStyles`](#calendarstyles)                             | -         | -        | Style options                     |
+| `showToday`        | `boolean`                                                       | `true`    | -        | Show today button                 |
+| `showFooter`       | `boolean`                                                       | `true`    | -        | Show footer                       |
+| `autoApply`        | `boolean`                                                       | `false`   | -        | Apply selection immediately       |
+| `showTimePicker`   | `boolean`                                                       | `false`   | -        | Show time picker                  |
+| `timeValue`        | [`TimeValue`](#timevalue)                                       | -         | -        | Time value                        |
+| `onTimeChange`     | `(hour: number, minute: number, second?: number) => void`       | -         | -        | Time change callback              |
+| `timeFormat`       | [`TimeFormat`](#timeformat)                                     | `"HH:mm"` | -        | Time format                       |
+| `minTime`          | `string`                                                        | -         | -        | Minimum selectable time           |
+| `maxTime`          | `string`                                                        | -         | -        | Maximum selectable time           |
+| `minuteStep`       | `number`                                                        | `1`       | -        | Minute step interval              |
+| `secondStep`       | `number`                                                        | `1`       | -        | Second step interval              |
+| `hideDisabledTime` | `boolean`                                                       | `false`   | -        | Hide disabled time options        |
+| `locale`           | [`LocaleProp`](#localeprop)                                     | `"ko"`    | -        | Locale (string or object)         |
+| `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -        | Partial text overrides            |
+| `monthOnly`        | `boolean`                                                       | `false`   | -        | Month-only selection mode         |
+| `yearOnly`         | `boolean`                                                       | `false`   | -        | Year-only selection mode          |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -        | Month change callback (on select) |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -        | Year change callback (on select)  |
+| `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -        | Week change callback (on confirm) |
+
+> **Note**: When using SimpleCalendar inline, `onYearChange` is called immediately on year selection, and `onMonthChange` is called immediately on month selection. In DatePicker/DateTimePicker, they are only called on final confirmation.
 
 ---
 

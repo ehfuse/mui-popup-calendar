@@ -105,6 +105,13 @@ export default function DatePickerPage() {
                             selectedDate={selectedDate}
                             onSelect={handleDateChange}
                             onClose={() => {}}
+                            onYearChange={(year) => {
+                                console.log(
+                                    "Inline calendar year changed:",
+                                    year,
+                                    "년"
+                                );
+                            }}
                             onMonthChange={(year, month) => {
                                 console.log(
                                     "Inline calendar month changed:",

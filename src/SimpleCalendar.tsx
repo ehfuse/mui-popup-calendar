@@ -285,18 +285,6 @@ export function SimpleCalendar({
                 // 날짜가 변경되었을 때만 이벤트 발생
                 if (!isSameDay(selectedDate, date)) {
                     onSelect(date);
-                    // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
-                    if (isYearChanged(date.getFullYear())) {
-                        onYearChange?.(date.getFullYear());
-                    }
-                    if (
-                        isMonthChanged(date.getFullYear(), date.getMonth() + 1)
-                    ) {
-                        onMonthChange?.(
-                            date.getFullYear(),
-                            date.getMonth() + 1
-                        );
-                    }
                     // 주 변경 콜백 (변경되었을 때만)
                     if (isWeekChanged(date)) {
                         const weekInfo = getWeekInfo(date);
@@ -333,26 +321,21 @@ export function SimpleCalendar({
 
     const handleTodayClick = () => {
         if (!isDateDisabled(today)) {
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth();
+
             if (autoApply) {
                 // autoApply가 true면 바로 적용 (닫지 않음)
-                // 날짜가 변경되었을 때만 이벤트 발생
+                // 현재 viewDate와 비교해서 년/월 이벤트 발생
+                if (year !== todayYear) {
+                    onYearChange?.(todayYear);
+                }
+                if (year !== todayYear || month !== todayMonth) {
+                    onMonthChange?.(todayYear, todayMonth + 1);
+                }
+                // 날짜가 변경되었을 때만 onSelect 발생
                 if (!isSameDay(selectedDate, today)) {
                     onSelect(today);
-                    // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
-                    if (isYearChanged(today.getFullYear())) {
-                        onYearChange?.(today.getFullYear());
-                    }
-                    if (
-                        isMonthChanged(
-                            today.getFullYear(),
-                            today.getMonth() + 1
-                        )
-                    ) {
-                        onMonthChange?.(
-                            today.getFullYear(),
-                            today.getMonth() + 1
-                        );
-                    }
                 }
                 // 시간 선택이 있으면 시간도 같이 적용 (변경되었을 때만)
                 if (
@@ -372,10 +355,10 @@ export function SimpleCalendar({
                         hasSeconds ? tempTime.second : undefined
                     );
                 }
-                setViewDate(new Date(today.getFullYear(), today.getMonth(), 1));
+                setViewDate(new Date(todayYear, todayMonth, 1));
             } else {
                 setTempSelectedDate(today);
-                setViewDate(new Date(today.getFullYear(), today.getMonth(), 1));
+                setViewDate(new Date(todayYear, todayMonth, 1));
             }
         }
     };
@@ -385,21 +368,6 @@ export function SimpleCalendar({
             // 날짜가 변경되었을 때만 이벤트 발생
             if (!isSameDay(selectedDate, tempSelectedDate)) {
                 onSelect(tempSelectedDate);
-                // 년/월 변경 콜백도 함께 호출 (변경되었을 때만)
-                if (isYearChanged(tempSelectedDate.getFullYear())) {
-                    onYearChange?.(tempSelectedDate.getFullYear());
-                }
-                if (
-                    isMonthChanged(
-                        tempSelectedDate.getFullYear(),
-                        tempSelectedDate.getMonth() + 1
-                    )
-                ) {
-                    onMonthChange?.(
-                        tempSelectedDate.getFullYear(),
-                        tempSelectedDate.getMonth() + 1
-                    );
-                }
                 // 주 변경 콜백 (변경되었을 때만)
                 if (isWeekChanged(tempSelectedDate)) {
                     const weekInfo = getWeekInfo(tempSelectedDate);
@@ -467,7 +435,15 @@ export function SimpleCalendar({
                 // autoApply가 false면 임시 저장만
                 setTempSelectedYear(selectedYear);
             }
+        } else if (monthOnly) {
+            // monthOnly 모드: 월까지 선택해야 최종이므로 년도 선택 시에는 이벤트 발생 안함
+            setTempYear(selectedYear);
+            setViewMode("month");
         } else {
+            // 일반 캘린더 모드: 년도 선택 시 onYearChange 호출 (현재 viewDate 기준)
+            if (year !== selectedYear) {
+                onYearChange?.(selectedYear);
+            }
             setTempYear(selectedYear);
             setViewMode("month");
         }
@@ -501,7 +477,13 @@ export function SimpleCalendar({
                 setTempMonth(selectedMonth);
             }
         } else {
-            setViewDate(new Date(tempYear, selectedMonth, 1));
+            // 일반 캘린더 모드: 년/월 선택 뷰에서 월을 선택하면 해당 월로 이동
+            const newDate = new Date(tempYear, selectedMonth, 1);
+            // 월 변경 콜백 호출 (현재 viewDate 기준으로 변경되었을 때만)
+            if (year !== tempYear || month !== selectedMonth) {
+                onMonthChange?.(tempYear, selectedMonth + 1);
+            }
+            setViewDate(newDate);
             setViewMode("calendar");
             setTempSelectedDate(null);
         }
@@ -583,7 +565,14 @@ export function SimpleCalendar({
                 <>
                     <IconButton
                         size="small"
-                        onClick={() => setViewMode("calendar")}
+                        onClick={() => {
+                            // 뒤로가기 시 tempYear가 현재 viewDate의 year와 다르면 onYearChange 발생
+                            if (tempYear !== year) {
+                                onYearChange?.(year);
+                            }
+                            setTempYear(year);
+                            setViewMode("calendar");
+                        }}
                     >
                         <ChevronLeft />
                     </IconButton>
@@ -668,10 +657,10 @@ export function SimpleCalendar({
                         }}
                     >
                         {yearList.map((y) => {
-                            // yearOnly 모드에서는 tempSelectedYear를, 그 외에는 현재 viewDate의 year를 기준으로 선택 표시
+                            // yearOnly 모드에서는 tempSelectedYear를, 그 외에는 tempYear를 기준으로 선택 표시
                             const isSelected = yearOnly
                                 ? tempSelectedYear === y
-                                : y === year;
+                                : y === tempYear;
                             const isCurrent = y === today.getFullYear();
                             return (
                                 <Box

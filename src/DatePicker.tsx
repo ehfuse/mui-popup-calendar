@@ -66,6 +66,10 @@ export function DatePicker({
     // 내부 임시 날짜 상태
     const [tempDate, setTempDate] = useState<Date | null>(selectedDate ?? null);
 
+    // 이전에 선택된 날짜의 년/월 추적 (이벤트 발생 여부 판단용)
+    const prevYear = selectedDate?.getFullYear();
+    const prevMonth = selectedDate?.getMonth();
+
     // open될 때 외부 값으로 초기화
     useEffect(() => {
         if (open) {
@@ -77,6 +81,20 @@ export function DatePicker({
     const handleDateSelect = (date: Date) => {
         setTempDate(date);
         onDateChange?.(date);
+
+        // monthOnly/yearOnly가 아닐 때만 여기서 년/월 변경 콜백 발생
+        // monthOnly/yearOnly일 때는 SimpleCalendar에서 이벤트 처리
+        if (!monthOnly && !yearOnly) {
+            const newYear = date.getFullYear();
+            const newMonth = date.getMonth();
+            if (prevYear !== newYear) {
+                onYearChange?.(newYear);
+            }
+            if (prevYear !== newYear || prevMonth !== newMonth) {
+                onMonthChange?.(newYear, newMonth + 1);
+            }
+        }
+
         // autoApply가 true면 날짜 선택 시 바로 닫기
         if (autoApply) {
             onClose();
@@ -124,8 +142,12 @@ export function DatePicker({
                 texts={texts}
                 monthOnly={monthOnly}
                 yearOnly={yearOnly}
-                onMonthChange={onMonthChange}
-                onYearChange={onYearChange}
+                // monthOnly/yearOnly 모드일 때만 SimpleCalendar의 이벤트를 전달
+                // 일반 모드에서는 날짜 선택 시에만 년/월 이벤트 발생
+                onYearChange={monthOnly || yearOnly ? onYearChange : undefined}
+                onMonthChange={
+                    monthOnly || yearOnly ? onMonthChange : undefined
+                }
                 onWeekChange={onWeekChange}
             />
         </Popover>

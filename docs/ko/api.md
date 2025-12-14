@@ -135,9 +135,11 @@ import { SimpleCalendar } from "@ehfuse/mui-datetime-picker";
 | `texts`            | [`CalendarTexts`](#calendartexts)                               | -         | -    | 텍스트 부분 커스터마이징  |
 | `monthOnly`        | `boolean`                                                       | `false`   | -    | 년월만 선택 모드          |
 | `yearOnly`         | `boolean`                                                       | `false`   | -    | 년도만 선택 모드          |
-| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -    | 월 변경 콜백 (확정 시)    |
-| `onYearChange`     | `(year: number) => void`                                        | -         | -    | 년도 변경 콜백 (확정 시)  |
+| `onMonthChange`    | `(year: number, month: number) => void`                         | -         | -    | 월 변경 콜백 (선택 시)    |
+| `onYearChange`     | `(year: number) => void`                                        | -         | -    | 년도 변경 콜백 (선택 시)  |
 | `onWeekChange`     | `(weekOfMonth: number, startDate: Date, endDate: Date) => void` | -         | -    | 주 변경 콜백 (확정 시)    |
+
+> **참고**: SimpleCalendar를 인라인으로 사용할 때 `onYearChange`는 년도 선택 시, `onMonthChange`는 월 선택 시 바로 호출됩니다. DatePicker/DateTimePicker에서는 최종 확정 시에만 호출됩니다.
 
 ---
 
@@ -350,8 +352,8 @@ import { koLocale, enLocale, jaLocale, ... } from "@ehfuse/mui-datetime-picker";
 
 ### 지원 로케일
 
-| 로케일       | 언어          | import                                                    |
-| ------------ | ------------- | --------------------------------------------------------- |
+| 로케일       | 언어          | import                                                     |
+| ------------ | ------------- | ---------------------------------------------------------- |
 | `koLocale`   | 한국어        | `import { koLocale } from "@ehfuse/mui-datetime-picker"`   |
 | `enLocale`   | 영어          | `import { enLocale } from "@ehfuse/mui-datetime-picker"`   |
 | `jaLocale`   | 일본어        | `import { jaLocale } from "@ehfuse/mui-datetime-picker"`   |

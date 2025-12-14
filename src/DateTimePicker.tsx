@@ -113,11 +113,25 @@ export function DateTimePicker({
         }
     }, [open, selectedDate, timeValue, minuteStep, secondStep, hasSeconds]);
 
+    // 이전에 선택된 날짜의 년/월 추적 (이벤트 발생 여부 판단용)
+    const prevYear = selectedDate?.getFullYear();
+    const prevMonth = selectedDate?.getMonth();
+
     // 날짜 선택 핸들러 (SimpleCalendar에서 호출)
     const handleDateSelect = (date: Date) => {
         setTempDate(date);
         // 날짜가 선택되면 항상 콜백 호출 (확인 버튼에서도 호출됨)
         onDateChange?.(date);
+
+        // 날짜 선택 시 년/월 변경 콜백 발생 (이전 날짜와 비교)
+        const newYear = date.getFullYear();
+        const newMonth = date.getMonth();
+        if (prevYear !== newYear) {
+            onYearChange?.(newYear);
+        }
+        if (prevYear !== newYear || prevMonth !== newMonth) {
+            onMonthChange?.(newYear, newMonth + 1);
+        }
     };
 
     // SimpleCalendar에서 시간 변경
@@ -191,8 +205,7 @@ export function DateTimePicker({
                 hideDisabledTime={hideDisabledTime}
                 locale={locale}
                 texts={texts}
-                onMonthChange={onMonthChange}
-                onYearChange={onYearChange}
+                // DateTimePicker는 일반 모드만 있으므로 날짜 선택 시에만 년/월 이벤트 발생
                 onWeekChange={onWeekChange}
             />
         </Popover>
